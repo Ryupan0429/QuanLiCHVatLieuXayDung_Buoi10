@@ -54,7 +54,7 @@
             dtpTuNgay = new DateTimePicker();
             btnLoc = new Button();
             dtpDenNgay = new DateTimePicker();
-            btnHuyLoc = new Button();
+            btnHuy = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -204,10 +204,10 @@
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(932, 18);
+            btnThoat.Location = new Point(891, 18);
             btnThoat.Margin = new Padding(4, 5, 4, 5);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(100, 38);
+            btnThoat.Size = new Size(108, 38);
             btnThoat.TabIndex = 7;
             btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = true;
@@ -236,7 +236,7 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(btnHuyLoc);
+            groupBox2.Controls.Add(btnHuy);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(dtpTuNgay);
@@ -295,17 +295,15 @@
             dtpDenNgay.Size = new Size(150, 27);
             dtpDenNgay.TabIndex = 21;
             // 
-            // btnHuyLoc
+            // btnHuy
             // 
-            btnHuyLoc.BackColor = SystemColors.Control;
-            btnHuyLoc.ForeColor = SystemColors.ActiveCaptionText;
-            btnHuyLoc.Location = new Point(686, 15);
-            btnHuyLoc.Name = "btnHuyLoc";
-            btnHuyLoc.Size = new Size(94, 29);
-            btnHuyLoc.TabIndex = 29;
-            btnHuyLoc.Text = "Hủy lọc";
-            btnHuyLoc.UseVisualStyleBackColor = false;
-            btnHuyLoc.Click += btnHuyLoc_Click;
+            btnHuy.Location = new Point(686, 15);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(100, 30);
+            btnHuy.TabIndex = 30;
+            btnHuy.Text = "Hủy lọc";
+            btnHuy.UseVisualStyleBackColor = true;
+            btnHuy.Click += btnHuy_Click;
             // 
             // frmHoaDon
             // 
@@ -342,5 +340,6 @@
         private Button btnLoc;
         private DateTimePicker dtpDenNgay;
         private Button btnHuyLoc;
+        private Button btnHuy;
     }
 }

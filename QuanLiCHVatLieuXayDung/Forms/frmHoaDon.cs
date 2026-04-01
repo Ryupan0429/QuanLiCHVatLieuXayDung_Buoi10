@@ -301,7 +301,8 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
-        private void btnHuyLoc_Click(object sender, EventArgs e)
+
+        private void btnHuy_Click(object sender, EventArgs e)
         {
             frmHoaDon_Load(sender, e);
         }

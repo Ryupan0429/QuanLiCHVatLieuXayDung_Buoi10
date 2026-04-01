@@ -32,12 +32,14 @@
             HanhDong = new DataGridViewTextBoxColumn();
             DoiTuong = new DataGridViewTextBoxColumn();
             MoTa = new DataGridViewTextBoxColumn();
+            btnLamMoi = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnLamMoi);
             panel1.Controls.Add(btnThoat);
             panel1.Controls.Add(btnXuatExcel);
             panel1.Controls.Add(btnLoc);
@@ -181,6 +183,16 @@
             MoTa.Name = "MoTa";
             MoTa.ReadOnly = true;
             // 
+            // btnLamMoi
+            // 
+            btnLamMoi.Location = new Point(663, 19);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new Size(100, 30);
+            btnLamMoi.TabIndex = 7;
+            btnLamMoi.Text = "Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = true;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
             // frmLichSuHoatDong
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -215,5 +227,6 @@
         private DataGridViewTextBoxColumn HanhDong;
         private DataGridViewTextBoxColumn DoiTuong;
         private DataGridViewTextBoxColumn MoTa;
+        private Button btnLamMoi;
     }
 }

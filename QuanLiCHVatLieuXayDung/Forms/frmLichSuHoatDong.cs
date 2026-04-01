@@ -37,7 +37,8 @@ namespace QuanLiCHVatLieuXayDung.Forms
                     .Include(l => l.NhanVien)
                     .Where(l => l.ThoiGian >= tuNgay && l.ThoiGian <= denNgay)
                     .OrderByDescending(l => l.ThoiGian)
-                    .Select(l => new {
+                    .Select(l => new
+                    {
                         l.ID,
                         NhanVien = l.NhanVien.HoVaTen,
                         l.ThoiGian,
@@ -77,7 +78,8 @@ namespace QuanLiCHVatLieuXayDung.Forms
                         var data = context.LichSuHoatDong
                             .Include(l => l.NhanVien)
                             .OrderByDescending(l => l.ThoiGian)
-                            .Select(l => new {
+                            .Select(l => new
+                            {
                                 ID = l.ID,
                                 NhanVien = l.NhanVien.HoVaTen,
                                 ThoiGian = l.ThoiGian,
@@ -102,6 +104,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            frmLichSuHoatDong_Load(sender, e);
         }
     }
 }

@@ -48,6 +48,7 @@
             TongNo = new DataGridViewTextBoxColumn();
             btnNhap = new Button();
             btnXuat = new Button();
+            btnLamMoi = new Button();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -83,6 +84,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(btnLamMoi);
             groupBox3.Controls.Add(btnTim);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(txtTimKiem);
@@ -96,7 +98,7 @@
             // btnTim
             // 
             btnTim.BackColor = SystemColors.ControlLight;
-            btnTim.Location = new Point(715, 21);
+            btnTim.Location = new Point(616, 23);
             btnTim.Name = "btnTim";
             btnTim.Size = new Size(112, 29);
             btnTim.TabIndex = 17;
@@ -117,7 +119,7 @@
             // 
             txtTimKiem.Location = new Point(266, 23);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(443, 27);
+            txtTimKiem.Size = new Size(344, 27);
             txtTimKiem.TabIndex = 17;
             // 
             // txtTongNo
@@ -369,6 +371,18 @@
             btnXuat.UseVisualStyleBackColor = false;
             btnXuat.Click += btnXuat_Click;
             // 
+            // btnLamMoi
+            // 
+            btnLamMoi.BackColor = SystemColors.ControlLight;
+            btnLamMoi.ForeColor = SystemColors.ActiveCaptionText;
+            btnLamMoi.Location = new Point(734, 23);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new Size(94, 29);
+            btnLamMoi.TabIndex = 31;
+            btnLamMoi.Text = "Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = false;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
             // frmKhachHang
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -424,5 +438,6 @@
         private Button btnTim;
         private Label label6;
         private TextBox txtTimKiem;
+        private Button btnLamMoi;
     }
 }

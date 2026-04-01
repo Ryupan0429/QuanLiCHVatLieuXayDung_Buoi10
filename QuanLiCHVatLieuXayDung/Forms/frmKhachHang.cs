@@ -198,7 +198,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
         private void btnTim_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(txtTimKiem.Text))
+            if (string.IsNullOrWhiteSpace(txtTimKiem.Text))
             {
                 LoadData();
                 return;
@@ -209,6 +209,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 var list = context.KhachHang.Where(k => k.TenKhachHang.ToLower().Contains(keyword) || k.SoDienThoai.Contains(keyword) || k.DiaChi.ToLower().Contains(keyword)).ToList();
                 dataGridView.DataSource = list;
             }
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            frmKhachHang_Load(sender, e);
         }
     }
 }
