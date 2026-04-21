@@ -1,7 +1,7 @@
 ﻿using QuanLiCHVatLieuXayDung.Data;
 using QuanLiCHVatLieuXayDung.Reports;
 using QuanLiCHVatLieuXayDung.Utilities;
-using QuanLyBanHang.Forms;
+using QuanLiCHVatLieuXayDung.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +16,10 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace QuanLiCHVatLieuXayDung.Forms
 {
+    // Form chính (Main): quản lý điều hướng toàn ứng dụng, quyền truy cập, đăng nhập/đăng xuất
+    // - Mở các form con (MDI)
+    // - Điều chỉnh quyền hiển thị menu theo vai trò
+    // - Ghi nhật ký đăng nhập/đăng xuất
     public partial class frmMain : Form
     {
         QLCHVLXDDbContext context = new QLCHVLXDDbContext();
@@ -32,11 +36,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
         frmThongKeDoanhThu thongKeDT = null;
         frmThongKeChiTieu thongKeCT = null;
         frmDoiMatKhau doiMatKhau = null;
+        frmBaoCaoNoCuaKhachHang baoCaoNo = null;
         string hoVaTenNhanVien = "";
+
         public frmMain()
         {
             InitializeComponent();
         }
+
+        // Hiển thị dialog đăng nhập và xử lý quyền theo người dùng
         private void DangNhap()
         {
         LamLai:
@@ -48,6 +56,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 string tenDangNhap = dangNhap.txtTenDangNhap.Text;
                 string matKhau = dangNhap.txtMatKhau.Text;
 
+                // Validate input
                 if (tenDangNhap.Trim() == "")
                 {
                     MessageBox.Show("Tên đăng nhập không được bỏ trống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -62,6 +71,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 }
                 else
                 {
+                    // Tìm user trong DB
                     var nhanVien = context.NhanVien.Where(r => r.TenDangNhap == tenDangNhap).SingleOrDefault();
 
                     if (nhanVien == null)
@@ -72,12 +82,14 @@ namespace QuanLiCHVatLieuXayDung.Forms
                     }
                     else
                     {
+                        // Kiểm tra mật khẩu
                         if (BC.Verify(matKhau, nhanVien.MatKhau))
                         {
-                            // lấy ID nhân viên hiện tại để ghi vào nhật ký hệ thống
+                            // Lưu ID nhân viên hiện tại để ghi nhật ký
                             NhatKyHeThong.MaNhanVienHienTai = nhanVien.ID;
                             hoVaTenNhanVien = nhanVien.HoVaTen;
 
+                            // Phân quyền giao diện theo QuyenHan
                             if (nhanVien.QuyenHan == true)
                             {
                                 NhatKyHeThong.GhiNhatKy("Đăng nhập", "Hệ thống", $"Quản lý {nhanVien.HoVaTen} đăng nhập thành công.");
@@ -102,6 +114,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Thiết lập giao diện khi chưa đăng nhập: chỉ bật menu Đăng nhập
         public void ChuaDangNhap()
         {
             // Sáng đăng nhập 
@@ -124,16 +137,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
             mnuThongKeDoanhThu.Enabled = false;
             mnuThongKeChiTieu.Enabled = false;
 
+
             lblTrangThai.Text = "Chưa đăng nhập.";
         }
 
+        // Thiết lập menu cho vai trò quản lý (quyền cao nhất)
         public void QuyenQuanLy()
         {
             // Mờ đăng nhập 
             mnuDangNhap.Enabled = false;
-
-            // Mờ các chức năng quản lý không được phép 
-
 
             // Sáng đăng xuất và các chức năng quản lý được phép 
             mnuDangXuat.Enabled = true;
@@ -148,14 +160,17 @@ namespace QuanLiCHVatLieuXayDung.Forms
             mnuPhieuNhap.Enabled = true;
             mnuLichSuHD.Enabled = true;
 
+
             mnuThongKeSanPham.Enabled = true;
             mnuThongKeDoanhThu.Enabled = true;
             mnuThongKeChiTieu.Enabled = true;
+            mnuBaoCaoNo.Enabled = true;
 
             // Hiển thị thông tin trên thanh trạng thái 
             lblTrangThai.Text = "Quản lý: " + hoVaTenNhanVien;
         }
 
+        // Thiết lập menu cho vai trò nhân viên (ít quyền hơn)
         public void QuyenNhanVien()
         {
             // Mờ đăng nhập 
@@ -179,12 +194,12 @@ namespace QuanLiCHVatLieuXayDung.Forms
             mnuThongKeSanPham.Enabled = true;
             mnuThongKeDoanhThu.Enabled = true;
             mnuThongKeChiTieu.Enabled = true;
-
-            // Hiển thị thông tin trên thanh trạng thái 
+            mnuBaoCaoNo.Enabled = true;
             lblTrangThai.Text = "Nhân viên: " + hoVaTenNhanVien;
         }
 
 
+        // Các handler mở form con: nếu chưa khởi tạo hoặc đã disposed thì tạo mới và hiển thị (MDI child)
         private void mnuLoaiSanPham_Click(object sender, EventArgs e)
         {
             if (loaiSanPham == null || loaiSanPham.IsDisposed)
@@ -257,6 +272,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 hoaDon.Activate();
         }
 
+        // Mở link liên kết (ví dụ trang web)
         private void lblLienKet_Click(object sender, EventArgs e)
         {
             ProcessStartInfo info = new ProcessStartInfo();
@@ -265,6 +281,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             Process.Start(info);
         }
 
+        // Khi form chính load: trạng thái chưa đăng nhập rồi gọi dialog đăng nhập
         private void frmMain_Load(object sender, EventArgs e)
         {
             ChuaDangNhap();
@@ -277,15 +294,17 @@ namespace QuanLiCHVatLieuXayDung.Forms
             DangNhap();
         }
 
+        // Xử lý đăng xuất: đóng tất cả form con, ghi nhật ký nếu có người dùng
         private void mnuDangXuat_Click(object sender, EventArgs e)
         {
-            // log logout if user is set, then clear current user
+            // đăng xuất và ghi vào nhật ký hệ thống nếu có người dùng đang đăng nhập
             if (NhatKyHeThong.MaNhanVienHienTai != 0)
             {
                 NhatKyHeThong.GhiNhatKy("Đăng xuất", "Hệ thống", $"{hoVaTenNhanVien} đăng xuất.");
                 NhatKyHeThong.MaNhanVienHienTai = 0;
             }
 
+            // Đóng tất cả các form con
             foreach (Form child in MdiChildren)
             {
                 child.Close();
@@ -293,6 +312,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             ChuaDangNhap();
         }
 
+        // Thoát ứng dụng: xác nhận và ghi nhật ký
         private void mnuThoat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thoát?", "Thoát", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -309,6 +329,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Mở form thống kê sản phẩm
         private void mnuThongKeSanPham_Click(object sender, EventArgs e)
         {
             //mở form thống kê sản phẩm
@@ -375,6 +396,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 thongKeCT.Activate();
         }
 
+        // Mở form đổi mật khẩu (truyền tên đăng nhập từ dialog đăng nhập)
         private void mnuDoiMatKhau_Click(object sender, EventArgs e)
         {
             if (doiMatKhau == null || doiMatKhau.IsDisposed)
@@ -386,6 +408,62 @@ namespace QuanLiCHVatLieuXayDung.Forms
             else
                 doiMatKhau.Activate();
 
+        }
+
+        private void mnuBaoCaoNo_Click(object sender, EventArgs e)
+        {
+            if (baoCaoNo == null || baoCaoNo.IsDisposed)
+            {
+                baoCaoNo = new frmBaoCaoNoCuaKhachHang();
+                baoCaoNo.MdiParent = this;
+                baoCaoNo.Show();
+            }
+            else
+                baoCaoNo.Activate();
+        }
+
+        private void mnuHDSD_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string htmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\HuongDanSuDung.html");
+                htmlPath = Path.GetFullPath(htmlPath);
+
+                if (File.Exists(htmlPath))
+                {
+                    Process.Start(new ProcessStartInfo(htmlPath) { UseShellExecute = true });
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy file hướng dẫn sử dụng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở hướng dẫn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mnuThongTinPhanMem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string htmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\ThongTinPhanMem.html");
+                htmlPath = Path.GetFullPath(htmlPath);
+
+                if (File.Exists(htmlPath))
+                {
+                    Process.Start(new ProcessStartInfo(htmlPath) { UseShellExecute = true });
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy file thông tin phần mềm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở hướng dẫn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

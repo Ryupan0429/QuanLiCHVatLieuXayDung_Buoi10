@@ -12,17 +12,21 @@ namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmPhieuNhap : Form
     {
+        // Form quản lý phiếu nhập: hiển thị danh sách, thêm/sửa/xóa, nhập/xuất Excel, in phiếu
+        // DbContext để truy xuất dữ liệu
         QLCHVLXDDbContext context = new QLCHVLXDDbContext();
-        int id;
+        int id; // lưu id phiếu nhập đang chọn
 
         public frmPhieuNhap()
         {
             InitializeComponent();
         }
 
+        // Khi form load: nạp danh sách phiếu nhập và hiển thị vào DataGridView
         private void frmPhieuNhap_Load(object sender, EventArgs e)
         {
             dataGridView.AutoGenerateColumns = false;
+            // Lấy danh sách phiếu nhập cùng tổng tiền tính từ chi tiết
             List<DanhSachPhieuNhap> pn = context.PhieuNhap.Select(r => new DanhSachPhieuNhap
             {
                 ID = r.ID,
@@ -32,21 +36,25 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 TenNhaCungCap = r.NhaCungCap.TenNhaCungCap,
                 NgayNhap = r.NgayNhap,
                 GhiChu = r.GhiChu,
+                // Tổng tiền = tổng (Số lượng * Đơn giá nhập) từ chi tiết
                 TongTien = r.PhieuNhap_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGiaNhap),
                 XemChiTiet = "Xem chi tiết"
             }).ToList();
             dataGridView.DataSource = pn;
         }
 
+        // Mở form chi tiết để lập phiếu mới
         private void btnLapPhieuNhap_Click(object sender, EventArgs e)
         {
             using (frmPhieuNhap_ChiTiet chiTiet = new frmPhieuNhap_ChiTiet())
             {
                 chiTiet.ShowDialog();
+                // reload danh sách sau khi đóng
                 frmPhieuNhap_Load(sender, e);
             }
         }
 
+        // Mở form chi tiết để sửa phiếu đã chọn
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
@@ -60,6 +68,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xóa phiếu nhập: phục hồi tồn kho, xóa chi tiết rồi xóa phiếu
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
@@ -77,7 +86,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                             {
                                 var chiTiets = context.PhieuNhap_ChiTiet.Where(ct => ct.PhieuNhapID == id).ToList();
 
-                                // Revert stock quantities
+                                // Hoàn tác tồn kho: trừ ngược số lượng đã cộng khi nhập
                                 foreach (var ct in chiTiets)
                                 {
                                     var sp = context.SanPham.Find(ct.SanPhamID);
@@ -108,11 +117,13 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Đóng form
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        // Xử lý click vào nút Xem chi tiết trên lưới
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -127,6 +138,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xuất danh sách phiếu nhập và chi tiết sang Excel
         private void btnXuat_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -191,6 +203,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Nhập dữ liệu từ Excel (hai sheet: PhieuNhap và PhieuNhap_ChiTiet)
         private void btnNhap_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -290,6 +303,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // In phiếu nhập đã chọn
         private void btnInPhieuNhap_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
@@ -307,6 +321,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
         }
 
+        // Lọc theo khoảng thời gian
         private void btnLoc_Click(object sender, EventArgs e)
         {
             DateTime tuNgay = dtpTuNgay.Value.Date;

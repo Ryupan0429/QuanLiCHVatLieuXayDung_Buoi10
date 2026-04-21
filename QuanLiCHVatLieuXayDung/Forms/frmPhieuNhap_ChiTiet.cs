@@ -11,9 +11,10 @@ namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmPhieuNhap_ChiTiet : Form
     {
+        // Form quản lý chi tiết phiếu nhập: thêm/sửa/xóa chi tiết, tính tổng, lưu phiếu nhập
         QLCHVLXDDbContext context = new QLCHVLXDDbContext();
         BindingList<DanhSachPhieuNhap_ChiTiet> listChiTiet = new BindingList<DanhSachPhieuNhap_ChiTiet>();
-        int id;
+        int id; // id phiếu nhập
 
         public frmPhieuNhap_ChiTiet()
         {
@@ -23,9 +24,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
         public frmPhieuNhap_ChiTiet(int maPhieuNhap = 0)
         {
             InitializeComponent();
+            // Lưu id được truyền vào để nạp dữ liệu khi sửa
             id = maPhieuNhap;
         }
 
+        // Khi load form: nạp combobox, nạp chi tiết nếu có id (sửa) và hiển thị lên grid
         private void frmPhieuNhap_ChiTiet_Load(object sender, EventArgs e)
         {
             LoadComboBox();
@@ -40,6 +43,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                     dtpNgayNhap.Value = pn.NgayNhap;
                     txtGhiChu.Text = pn.GhiChu;
 
+                    // Lấy danh sách chi tiết từ DB và chuyển thành DTO
                     var ct = context.PhieuNhap_ChiTiet
                         .Where(r => r.PhieuNhapID == id)
                         .Select(r => new DanhSachPhieuNhap_ChiTiet
@@ -62,6 +66,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             UpdateUiState();
         }
 
+        // Nạp dữ liệu cho combobox Nhà cung cấp và Sản phẩm
         private void LoadComboBox()
         {
             cboNhaCungCap.DataSource = context.NhaCungCap.ToList();
@@ -74,6 +79,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             cboSanPham.SelectedIndex = -1;
         }
 
+        // Cập nhật trạng thái UI: khi không có chi tiết thì disable nút lưu, xóa
         private void UpdateUiState()
         {
             if (id == 0 && dataGridView.Rows.Count == 0)
@@ -89,6 +95,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             btnXoaSP.Enabled = dataGridView.Rows.Count > 0;
         }
 
+        // Khi chọn sản phẩm, nạp đơn giá nhập mặc định từ sản phẩm
         private void cboSanPham_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (cboSanPham.SelectedValue != null)
@@ -102,6 +109,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Thêm sản phẩm vào danh sách chi tiết (nếu đã tồn tại thì cộng số lượng)
         private void btnThemSP_Click(object sender, EventArgs e)
         {
             if (cboSanPham.SelectedItem is SanPham sp)
@@ -152,12 +160,14 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Tính lại tổng tiền từ danh sách chi tiết
         private void RecalculateTotal()
         {
             decimal tong = listChiTiet.Sum(x => x.ThanhTien);
             txtTongTien.Text = tong.ToString("N0");
         }
 
+        // Xóa sản phẩm khỏi danh sách chi tiết
         private void btnXoaSP_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
@@ -176,6 +186,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Lưu phiếu nhập: tạo mới hoặc cập nhật, cập nhật tồn kho và ghi nhật ký
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (listChiTiet.Count == 0)
@@ -294,11 +305,13 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
-                private void btnThoat_Click(object sender, EventArgs e)
+        // Đóng form
+        private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        // In phiếu nhập
         private void btnInPhieuNhap_Click(object sender, EventArgs e)
         {
             if (id == 0)

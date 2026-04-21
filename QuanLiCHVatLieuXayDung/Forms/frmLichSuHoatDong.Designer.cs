@@ -17,7 +17,9 @@
 
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btnLamMoi = new Button();
             btnThoat = new Button();
             btnXuatExcel = new Button();
             btnLoc = new Button();
@@ -32,13 +34,13 @@
             HanhDong = new DataGridViewTextBoxColumn();
             DoiTuong = new DataGridViewTextBoxColumn();
             MoTa = new DataGridViewTextBoxColumn();
-            btnLamMoi = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(btnLamMoi);
             panel1.Controls.Add(btnThoat);
             panel1.Controls.Add(btnXuatExcel);
@@ -53,34 +55,52 @@
             panel1.Size = new Size(1104, 70);
             panel1.TabIndex = 0;
             // 
+            // btnLamMoi
+            // 
+            btnLamMoi.BackColor = Color.FromArgb(0, 123, 255);
+            btnLamMoi.ForeColor = Color.White;
+            btnLamMoi.Location = new Point(663, 19);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new Size(100, 30);
+            btnLamMoi.TabIndex = 7;
+            btnLamMoi.Text = "Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = false;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
             // btnThoat
             // 
+            btnThoat.BackColor = Color.FromArgb(0, 123, 255);
+            btnThoat.ForeColor = Color.White;
             btnThoat.Location = new Point(980, 20);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(100, 30);
             btnThoat.TabIndex = 6;
             btnThoat.Text = "Thoát";
-            btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.UseVisualStyleBackColor = false;
             btnThoat.Click += btnThoat_Click;
             // 
             // btnXuatExcel
             // 
+            btnXuatExcel.BackColor = Color.FromArgb(0, 123, 255);
+            btnXuatExcel.ForeColor = Color.White;
             btnXuatExcel.Location = new Point(850, 20);
             btnXuatExcel.Name = "btnXuatExcel";
             btnXuatExcel.Size = new Size(120, 30);
             btnXuatExcel.TabIndex = 5;
             btnXuatExcel.Text = "Xuất Excel";
-            btnXuatExcel.UseVisualStyleBackColor = true;
+            btnXuatExcel.UseVisualStyleBackColor = false;
             btnXuatExcel.Click += btnXuatExcel_Click;
             // 
             // btnLoc
             // 
+            btnLoc.BackColor = Color.FromArgb(0, 123, 255);
+            btnLoc.ForeColor = Color.White;
             btnLoc.Location = new Point(540, 20);
             btnLoc.Name = "btnLoc";
             btnLoc.Size = new Size(100, 30);
             btnLoc.TabIndex = 4;
             btnLoc.Text = "Lọc dữ liệu";
-            btnLoc.UseVisualStyleBackColor = true;
+            btnLoc.UseVisualStyleBackColor = false;
             btnLoc.Click += btnLoc_Click;
             // 
             // label2
@@ -123,6 +143,14 @@
             // 
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, NhanVien, ThoiGian, HanhDong, DoiTuong, MoTa });
             dataGridView.Dock = DockStyle.Fill;
@@ -183,16 +211,6 @@
             MoTa.Name = "MoTa";
             MoTa.ReadOnly = true;
             // 
-            // btnLamMoi
-            // 
-            btnLamMoi.Location = new Point(663, 19);
-            btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(100, 30);
-            btnLamMoi.TabIndex = 7;
-            btnLamMoi.Text = "Làm mới";
-            btnLamMoi.UseVisualStyleBackColor = true;
-            btnLamMoi.Click += btnLamMoi_Click;
-            // 
             // frmLichSuHoatDong
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -203,6 +221,7 @@
             Name = "frmLichSuHoatDong";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nhật ký hệ thống";
+            WindowState = FormWindowState.Maximized;
             Load += frmLichSuHoatDong_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

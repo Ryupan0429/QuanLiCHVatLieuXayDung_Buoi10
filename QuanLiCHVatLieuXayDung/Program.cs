@@ -1,5 +1,4 @@
 using QuanLiCHVatLieuXayDung.Forms;
-using QuanLyBanHang.Forms;
 
 namespace QuanLiCHVatLieuXayDung
 {

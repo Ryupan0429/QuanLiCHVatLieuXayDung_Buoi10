@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Sử Dụng - Quản Lý Cửa Hàng Vật Liệu Xây Dựng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .feature-list {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .step {
+            background: #f0f4ff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .step strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Quản Lý Cửa Hàng Vật Liệu Xây Dựng</h1>
+            <p>Hướng Dẫn Sử Dụng Ứng Dụng</p>
+        </div>
+        
+        <div class="content">
+            <!-- Giới Thiệu -->
+            <div class="section">
+                <h2>🎯 Giới Thiệu Ứng Dụng</h2>
+                <p>Ứng dụng "Quản Lý Cửa Hàng Vật Liệu Xây Dựng" là một hệ thống quản lý toàn diện dành cho các cửa hàng bán vật liệu xây dựng. Ứng dụng cung cấp các công cụ mạnh mẽ để quản lý sản phẩm, khách hàng, nhân viên, đơn hàng, và các báo cáo kinh doanh chi tiết.</p>
+                
+                <div class="feature-list">
+                    <strong>Các Tính Năng Chính:</strong>
+                    <ul>
+                        <li>Quản lý sản phẩm và kho hàng</li>
+                        <li>Quản lý nhà cung cấp và loại sản phẩm</li>
+                        <li>Quản lý khách hàng</li>
+                        <li>Quản lý nhân viên</li>
+                        <li>Lập hóa đơn bán hàng</li>
+                        <li>Quản lý phiếu nhập hàng</li>
+                        <li>Báo cáo doanh thu, chi tiêu và nợ khách hàng</li>
+                        <li>Lịch sử hoạt động hệ thống</li>
+                        <li>Nhập/Xuất dữ liệu Excel</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Đăng Nhập -->
+            <div class="section">
+                <h2>🔐 Đăng Nhập Hệ Thống</h2>
+                <p>Khi khởi động ứng dụng, bạn sẽ được yêu cầu nhập tên đăng nhập và mật khẩu.</p>
+                
+                <div class="step">
+                    <strong>Bước 1: Nhập Thông Tin Đăng Nhập</strong>
+                    <p>Nhập tên đăng nhập và mật khẩu của bạn vào các ô tương ứng</p>
+                </div>
+                
+                <div class="step">
+                    <strong>Bước 2: Nhấn Đăng Nhập</strong>
+                    <p>Bấm nút "Đăng Nhập" để tiếp tục</p>
+                </div>
+                
+                <div class="note">
+                    <strong>⚠️ Lưu Ý:</strong> Hệ thống có 2 loại người dùng - Quản lý và Nhân viên. Quyền truy cập sẽ khác nhau tùy theo vai trò của bạn.
+                </div>
+            </div>
+            
+            <!-- Quản Lý Sản Phẩm -->
+            <div class="section">
+                <h2>📦 Quản Lý Sản Phẩm</h2>
+                <p>Phần này cho phép bạn quản lý tất cả thông tin về sản phẩm bán tại cửa hàng.</p>
+                
+                <h3>Thêm Sản Phẩm Mới</h3>
+                <div class="step">
+                    <strong>Bước 1:</strong> Nhấn nút "Thêm" trong menu Quản Lý → Sản Phẩm
+                </div>
+                <div class="step">
+                    <strong>Bước 2:</strong> Điền đầy đủ thông tin:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Loại sản phẩm (bắt buộc)</li>
+                        <li>Nhà cung cấp (bắt buộc)</li>
+                        <li>Tên sản phẩm (bắt buộc)</li>
+                        <li>Số lượng (> 0)</li>
+                        <li>Đơn giá (> 0)</li>
+                        <li>Đơn vị tính</li>
+                        <li>Mô tả sản phẩm</li>
+                        <li>Hình ảnh sản phẩm</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <strong>Bước 3:</strong> Nhấn "Lưu" để thêm sản phẩm vào hệ thống
+                </div>
+                
+                <h3>Sửa Sản Phẩm</h3>
+                <p>Chọn sản phẩm từ danh sách, nhấn "Sửa", thay đổi thông tin cần thiết, rồi nhấn "Lưu".</p>
+                
+                <h3>Xóa Sản Phẩm</h3>
+                <p>Chọn sản phẩm từ danh sách, nhấn "Xóa", xác nhận xóa.</p>
+                
+                <h3>Lọc Sản Phẩm</h3>
+                <p>Sử dụng các bộ lọc theo loại sản phẩm hoặc nhà cung cấp để tìm sản phẩm cần thiết.</p>
+            </div>
+            
+            <!-- Quản Lý Khách Hàng -->
+            <div class="section">
+                <h2>👥 Quản Lý Khách Hàng</h2>
+                <p>Quản lý thông tin khách hàng, theo dõi lịch sử giao dịch và nợ tính.</p>
+                
+                <h3>Thêm Khách Hàng</h3>
+                <div class="step">
+                    <strong>Bước 1:</strong> Vào Quản Lý → Khách Hàng
+                </div>
+                <div class="step">
+                    <strong>Bước 2:</strong> Nhấn "Thêm" và điền thông tin khách hàng
+                </div>
+                <div class="step">
+                    <strong>Bước 3:</strong> Nhấn "Lưu"
+                </div>
+            </div>
+            
+            <!-- Lập Hóa Đơn -->
+            <div class="section">
+                <h2>💳 Lập Hóa Đơn</h2>
+                <p>Quản lý bán hàng và lập hóa đơn cho khách hàng.</p>
+                
+                <h3>Quy Trình Lập Hóa Đơn</h3>
+                <div class="step">
+                    <strong>Bước 1:</strong> Vào menu Hóa Đơn
+                </div>
+                <div class="step">
+                    <strong>Bước 2:</strong> Nhấn "Thêm" để tạo hóa đơn mới
+                </div>
+                <div class="step">
+                    <strong>Bước 3:</strong> Chọn khách hàng từ danh sách
+                </div>
+                <div class="step">
+                    <strong>Bước 4:</strong> Thêm các sản phẩm vào hóa đơn
+                </div>
+                <div class="step">
+                    <strong>Bước 5:</strong> Chọn phương thức thanh toán
+                </div>
+                <div class="step">
+                    <strong>Bước 6:</strong> Nhấn "Lưu" để lưu hóa đơn
+                </div>
+            </div>
+            
+            <!-- Báo Cáo -->
+            <div class="section">
+                <h2>📊 Báo Cáo và Thống Kê</h2>
+                <p>Xem các báo cáo chi tiết về doanh thu, chi tiêu, và nợ của khách hàng.</p>
+                
+                <div class="feature-list">
+                    <strong>Các Báo Cáo Có Sẵn:</strong>
+                    <ul>
+                        <li><strong>Báo Cáo Doanh Thu:</strong> Thống kê doanh thu theo ngày/tháng/năm</li>
+                        <li><strong>Báo Cáo Sản Phẩm:</strong> Xem tồn kho và bán chạy nhất</li>
+                        <li><strong>Báo Cáo Chi Tiêu:</strong> Quản lý chi phí nhập hàng</li>
+                        <li><strong>Báo Cáo Nợ:</strong> Theo dõi khách hàng có nợ</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Nhân Viên -->
+            <div class="section">
+                <h2>👔 Quản Lý Nhân Viên</h2>
+                <p><em>Chỉ dành cho Quản lý</em></p>
+                <p>Quản lý danh sách nhân viên, phân quyền truy cập, và thay đổi mật khẩu.</p>
+                
+                <h3>Thêm Nhân Viên</h3>
+                <div class="step">
+                    <strong>Bước 1:</strong> Vào Quản Lý → Nhân Viên (chỉ có cho Quản lý)
+                </div>
+                <div class="step">
+                    <strong>Bước 2:</strong> Nhấn "Thêm" và điền thông tin nhân viên
+                </div>
+                <div class="step">
+                    <strong>Bước 3:</strong> Chọn quyền hạn (Quản lý / Nhân viên bán hàng)
+                </div>
+                <div class="step">
+                    <strong>Bước 4:</strong> Nhấn "Lưu"
+                </div>
+            </div>
+            
+            <!-- Chức Năng Khác -->
+            <div class="section">
+                <h2>⚙️ Chức Năng Khác</h2>
+                
+                <h3>Đổi Mật Khẩu</h3>
+                <p>Vào Tài Khoản → Đổi Mật Khẩu để thay đổi mật khẩu của bạn.</p>
+                
+                <h3>Lịch Sử Hoạt Động</h3>
+                <p>Xem toàn bộ lịch sử đăng nhập, sửa đổi, xóa dữ liệu trong Quản Lý → Lịch Sử Hoạt Động.</p>
+                
+                <h3>Nhập/Xuất Excel</h3>
+                <p>Hầu hết các danh sách đều hỗ trợ nhập dữ liệu từ Excel và xuất dữ liệu ra Excel.</p>
+            </div>
+            
+            <!-- Mẹo Sử Dụng -->
+            <div class="section">
+                <h2>💡 Mẹo Sử Dụng</h2>
+                <div class="note">
+                    <strong>✓ Lưu thường xuyên:</strong> Sau khi nhập dữ liệu, luôn nhấn "Lưu" để đảm bảo thông tin được lưu vào hệ thống.
+                </div>
+                
+                <div class="note">
+                    <strong>✓ Sao lưu dữ liệu:</strong> Xuất dữ liệu ra Excel định kỳ để làm bản sao lưu.
+                </div>
+                
+                <div class="note">
+                    <strong>✓ Kiểm tra kỹ:</strong> Khi lập hóa đơn, hãy kiểm tra kỹ thông tin sản phẩm và số lượng trước khi lưu.
+                </div>
+                
+                <div class="note">
+                    <strong>✓ Phím tắt:</strong> Sử dụng Ctrl+F1 để mở hướng dẫn này nhanh chóng từ bất kỳ màn hình nào.
+                </div>
+            </div>
+            
+            <!-- Liên Hệ Hỗ Trợ -->
+            <div class="section">
+                <h2>📞 Liên Hệ Hỗ Trợ</h2>
+                <p>Nếu bạn gặp vấn đề hoặc có câu hỏi, vui lòng liên hệ với bộ phận CNTT hoặc quản lý cửa hàng.</p>
+                
+                <div class="note">
+                    <strong>Lưu ý:</strong> Đây là phiên bản 1.0 của ứng dụng. Chúng tôi sẽ liên tục cải thiện và thêm các tính năng mới dựa trên phản hồi của bạn.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Ứng Dụng Quản Lý Cửa Hàng Vật Liệu Xây Dựng v1.0</strong></p>
+            <p>© 2026 - Tường Vy</p>
+        </div>
+    </div>
+</body>
+</html>

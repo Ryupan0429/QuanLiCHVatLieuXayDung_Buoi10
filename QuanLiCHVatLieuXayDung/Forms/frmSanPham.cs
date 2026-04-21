@@ -15,18 +15,20 @@ namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmSanPham : Form
     {
+        // Form quản lý sản phẩm: tải dữ liệu, thêm/sửa/xóa, nhập/xuất Excel, xử lý hình ảnh
         public frmSanPham()
         {
             InitializeComponent();
         }
 
         QLCHVLXDDbContext context = new QLCHVLXDDbContext();
-        bool xuLyThem = false;
-        int idSanPhamHienTai;
-        string imagesFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows", "Images");
+        bool xuLyThem = false; // cờ đang ở chế độ thêm
+        int idSanPhamHienTai; // id sản phẩm đang chọn
+        string imagesFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows", "Images"); // thư mục chứa ảnh sản phẩm
 
         BindingSource bindingSource = new BindingSource();
 
+        // Khi form load: thiết lập trạng thái UI, nạp dữ liệu cho combobox và DataGrid
         private void frmSanPham_Load(object sender, EventArgs e)
         {
             BatTatChucNang(false);
@@ -34,6 +36,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             LoadDataGrid();
         }
 
+        // Nạp dữ liệu cho các combobox (Nhà cung cấp, Loại sản phẩm)
         private void LoadComboBoxData()
         {
             cboNhaCungCap.DataSource = context.NhaCungCap.ToList();
@@ -53,10 +56,12 @@ namespace QuanLiCHVatLieuXayDung.Forms
             cboLoaiSanPham.ValueMember = "ID";
         }
 
+        // Nạp dữ liệu sản phẩm vào DataGridView và thiết lập binding cho các control
         private void LoadDataGrid()
         {
             dataGridView.AutoGenerateColumns = false;
 
+            // Lấy danh sách sản phẩm chưa bị xóa và chuyển sang DTO DanhSachSanPham để hiển thị
             List<DanhSachSanPham> sp = context.SanPham
                 .Where(s => s.DaXoa == false)
                 .Select(r => new DanhSachSanPham
@@ -77,6 +82,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
             bindingSource.DataSource = sp;
 
+            // Xóa các binding hiện có rồi thiết lập binding mới để đồng bộ UI với data
             cboLoaiSanPham.DataBindings.Clear();
             cboNhaCungCap.DataBindings.Clear();
             txtTenSanPham.DataBindings.Clear();
@@ -94,6 +100,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             txtDVT.DataBindings.Add("Text", bindingSource, "DonViTinh", false, DataSourceUpdateMode.Never);
             txtMoTa.DataBindings.Add("Text", bindingSource, "MoTa", false, DataSourceUpdateMode.Never);
 
+            // Binding cho ảnh: convert tên file thành đường dẫn thực tế
             Binding hinhAnh = new Binding("ImageLocation", bindingSource, "HinhAnh", true, DataSourceUpdateMode.Never);
             hinhAnh.Format += (s, e) =>
             {
@@ -104,9 +111,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
             };
             picHinhAnh.DataBindings.Add(hinhAnh);
 
+            // Thiết lập DataSource
             dataGridView.DataSource = bindingSource;
+            
+            // Tăng height row để ảnh 24x24 hiển thị rõ
+            dataGridView.RowTemplate.Height = 32;
+
         }
 
+        // Bật/tắt nút và control dựa trên trạng thái (đang chỉnh sửa hay không)
         public void BatTatChucNang(bool isEditing)
         {
             btnThem.Enabled = !isEditing;
@@ -134,6 +147,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             picHinhAnh.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
+        // Người dùng bấm Thêm: bật chế độ thêm và reset input
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;
@@ -141,6 +155,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             ResetInput();
         }
 
+        // Người dùng bấm Sửa: kiểm tra đã chọn sản phẩm rồi bật chế độ sửa
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (idSanPhamHienTai == 0)
@@ -152,8 +167,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
             BatTatChucNang(true);
         }
 
+        // Người dùng bấm Xóa: đánh dấu DaXoa = true để ẩn sản phẩm
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (idSanPhamHienTai == 0)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần xóa!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (MessageBox.Show("Bạn muốn xóa sản phẩm này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 var sp = context.SanPham.Find(idSanPhamHienTai);
@@ -167,9 +189,14 @@ namespace QuanLiCHVatLieuXayDung.Forms
                     NhatKyHeThong.GhiNhatKy("Xóa", "Sản phẩm", $"Xóa sản phẩm ID: {idSanPhamHienTai} - {sp.TenSanPham}");
                     LoadDataGrid();
                 }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy sản phẩm để xóa!");
+                }
             }
         }
 
+        // Lưu (Thêm hoặc Cập nhật): kiểm tra hợp lệ rồi cập nhật DB
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (!ValidateInput()) return;
@@ -251,6 +278,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Hủy thao tác: trả về trạng thái không chỉnh sửa và đưa selection về vị trí hiện tại
         private void btnHuyBo_Click(object sender, EventArgs e)
         {
             BatTatChucNang(false);
@@ -261,6 +289,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Đổi form hoặc chọn dòng trên grid: cập nhật id hiện tại
         private void btnThoat_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn muốn thoát?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -269,32 +298,41 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Người dùng click vào 1 dòng trên DataGridView -> lấy ID sản phẩm để thao tác
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && dataGridView.Rows[e.RowIndex].Cells[0].Value != null)
             {
-                DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-                idSanPhamHienTai = Convert.ToInt32(row.Cells["ID"].Value);
-            }
-        }
-
-        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dataGridView.Columns[e.ColumnIndex].Name == "HinhAnh" && e.Value != null)
-            {
-                string imagePath = Path.Combine(imagesFolder, e.Value.ToString());
-                if (File.Exists(imagePath))
+                try
                 {
-                    try
-                    {
-                        Image image = Image.FromFile(imagePath);
-                        e.Value = new Bitmap(image, 24, 24);
-                    }
-                    catch { }
+                    idSanPhamHienTai = Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells[0].Value);
+                }
+                catch
+                {
+                    idSanPhamHienTai = 0;
                 }
             }
         }
 
+        // Format cột ảnh: convert String thành Bitmap 24x24 để hiển thị trong grid
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView.Columns[e.ColumnIndex].Name == "HinhAnh")
+            {
+                try
+                {
+                    Image image = Image.FromFile(Path.Combine(imagesFolder, e.Value.ToString()));
+                    image = new Bitmap(image, 24, 24);
+                    e.Value = image;
+                }
+                catch
+                {
+                    // Bỏ qua nếu lỗi
+                }
+            }
+        }
+
+        // Reset input khi thêm mới
         private void ResetInput()
         {
             txtTenSanPham.Clear();
@@ -309,6 +347,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             picHinhAnh.Image = null;
         }
 
+        // Validate input trước khi lưu (bắt buộc tên, NCC, loại, số lượng >0, giá >0, hình ảnh)
         private bool ValidateInput()
         {
             if (string.IsNullOrWhiteSpace(txtTenSanPham.Text))
@@ -339,6 +378,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             return true;
         }
 
+        // Gán dữ liệu từ các control vào object SanPham trước khi lưu vào DB
         private void GanDuLieuVaoObject(SanPham sp)
         {
             sp.TenSanPham = txtTenSanPham.Text;
@@ -356,6 +396,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Chọn ảnh khi thêm mới: lưu file vào thư mục Images và đặt ImageLocation
         private void picHinhAnh_Click(object sender, EventArgs e)
         {
             if (!xuLyThem) return;
@@ -385,6 +426,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xoay ảnh trái
         private void btnXoayTrai_Click(object sender, EventArgs e)
         {
             if (picHinhAnh.Image != null)
@@ -394,6 +436,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Phóng to ảnh
         private void btnPhongTo_Click(object sender, EventArgs e)
         {
             if (picHinhAnh.Image != null)
@@ -408,6 +451,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Thu nhỏ ảnh
         private void btnThuNho_Click(object sender, EventArgs e)
         {
             if (picHinhAnh.Image != null)
@@ -425,8 +469,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Cập nhật ảnh sản phẩm đã tồn tại
         private void btnDoiAnh_Click(object sender, EventArgs e)
         {
+            if (idSanPhamHienTai == 0)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần đổi ảnh!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Cập nhật hình ảnh sản phẩm";
             openFileDialog.Filter = "Tập tin hình ảnh|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
@@ -434,33 +485,42 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                var slugHelper = new SlugHelper();
-                string fileName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                string ext = Path.GetExtension(openFileDialog.FileName);
-                string savedFileName = slugHelper.GenerateSlug(fileName) + ext;
-
-                if (File.Exists(Path.Combine(imagesFolder, savedFileName)))
+                try
                 {
-                    MessageBox.Show("Hình ảnh sản phẩm đã tồn tại trong thư mục!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    var slugHelper = new SlugHelper();
+                    string fileName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                    string ext = Path.GetExtension(openFileDialog.FileName);
+                    string savedFileName = slugHelper.GenerateSlug(fileName) + ext;
+
+                    if (File.Exists(Path.Combine(imagesFolder, savedFileName)))
+                    {
+                        // Nếu file đã tồn tại, thêm timestamp để tránh ghi đè
+                        string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        savedFileName = $"{slugHelper.GenerateSlug(fileName)}_{timestamp}{ext}";
+                    }
+
+                    string fileSavePath = Path.Combine(imagesFolder, savedFileName);
+                    File.Copy(openFileDialog.FileName, fileSavePath, true);
+
+                    SanPham sp = context.SanPham.Find(idSanPhamHienTai);
+                    if (sp != null)
+                    {
+                        sp.HinhAnh = savedFileName;
+                        context.SanPham.Update(sp);
+                        context.SaveChanges();
+
+                        MessageBox.Show("Đổi ảnh thành công!");
+                        LoadDataGrid();
+                    }
                 }
-
-                string fileSavePath = Path.Combine(imagesFolder, savedFileName);
-                File.Copy(openFileDialog.FileName, fileSavePath, true);
-
-                SanPham sp = context.SanPham.Find(idSanPhamHienTai);
-                if (sp != null)
+                catch (Exception ex)
                 {
-                    sp.HinhAnh = savedFileName;
-                    context.SanPham.Update(sp);
-                    context.SaveChanges();
-
-                    MessageBox.Show("Đổi ảnh thành công!");
-                    LoadDataGrid();
+                    MessageBox.Show("Lỗi khi đổi ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
+        // Nhập danh sách sản phẩm từ Excel
         private void btnNhap_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -529,6 +589,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xuất danh sách sản phẩm sang Excel
         private void btnXuat_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -577,37 +638,42 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Lọc sản phẩm theo nhà cung cấp và loại sản phẩm
         private void btnLoc_Click(object sender, EventArgs e)
         {
-            int nhaCungCapID = Convert.ToInt32(cboNhaCungCapTim.SelectedValue);
-            int loaiSanPhamID = Convert.ToInt32(cboLoaiSanPhamTim.SelectedValue);
-            if (
-                (nhaCungCapID > 0 && loaiSanPhamID > 0) ||
-                (nhaCungCapID > 0 && loaiSanPhamID == 0) ||
-                (nhaCungCapID == 0 && loaiSanPhamID > 0)
-                )
-            {
+            int nhaCungCapID = (cboNhaCungCapTim.SelectedValue != null) ? Convert.ToInt32(cboNhaCungCapTim.SelectedValue) : 0;
+            int loaiSanPhamID = (cboLoaiSanPhamTim.SelectedValue != null) ? Convert.ToInt32(cboLoaiSanPhamTim.SelectedValue) : 0;
 
-                var sp = context.SanPham
-                    .Where(s => s.DaXoa == false &&
-                        (nhaCungCapID == 0 || s.NhaCungCapID == nhaCungCapID) &&
-                        (loaiSanPhamID == 0 || s.LoaiSanPhamID == loaiSanPhamID))
-                    .Select(r => new DanhSachSanPham
-                    {
-                        ID = r.ID,
-                        NhaCungCapID = r.NhaCungCapID,
-                        TenNhaCungCap = r.NhaCungCap.TenNhaCungCap,
-                        LoaiSanPhamID = r.LoaiSanPhamID,
-                        TenLoai = r.LoaiSanPham.TenLoai,
-                        TenSanPham = r.TenSanPham,
-                        SoLuong = r.SoLuong,
-                        DonGia = r.DonGia,
-                        GiaNhap = r.GiaNhap,
-                        DonViTinh = r.DonViTinh,
-                        MoTa = r.MoTa,
-                        HinhAnh = r.HinhAnh
-                    }).ToList();
+            // Nếu cả hai đều không chọn, thông báo
+            if (nhaCungCapID <= 0 && loaiSanPhamID <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất một tiêu chí để lọc!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // Xây dựng điều kiện lọc: nếu chọn nhà cung cấp và loại thì lọc cả 2, nếu chỉ chọn 1 thì lọc theo 1
+            List<DanhSachSanPham> sp = context.SanPham
+                .Where(s => s.DaXoa == false &&
+                    (nhaCungCapID <= 0 || s.NhaCungCapID == nhaCungCapID) &&
+                    (loaiSanPhamID <= 0 || s.LoaiSanPhamID == loaiSanPhamID))
+                .Select(r => new DanhSachSanPham
+                {
+                    ID = r.ID,
+                    NhaCungCapID = r.NhaCungCapID,
+                    TenNhaCungCap = r.NhaCungCap.TenNhaCungCap,
+                    LoaiSanPhamID = r.LoaiSanPhamID,
+                    TenLoai = r.LoaiSanPham.TenLoai,
+                    TenSanPham = r.TenSanPham,
+                    SoLuong = r.SoLuong,
+                    DonGia = r.DonGia,
+                    GiaNhap = r.GiaNhap,
+                    DonViTinh = r.DonViTinh,
+                    MoTa = r.MoTa,
+                    HinhAnh = r.HinhAnh
+                }).ToList();
+
+            // Gán kết quả lọc vào bindingSource để hiển thị trên DataGridView
+            bindingSource.DataSource = sp;
         }
 
         private void btnHuyLoc_Click(object sender, EventArgs e)
@@ -615,6 +681,17 @@ namespace QuanLiCHVatLieuXayDung.Forms
             cboNhaCungCapTim.SelectedIndex = -1;
             cboLoaiSanPhamTim.SelectedIndex = -1;
             LoadDataGrid();
+        }
+
+        // Xử lý lỗi DataGridView: bỏ qua lỗi khi bind String vào ImageColumn, cho phép CellFormatting xử lý
+        private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
+        private void btnLuuAnh_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

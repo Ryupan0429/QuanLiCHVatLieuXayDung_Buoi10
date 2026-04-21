@@ -20,9 +20,12 @@ namespace QuanLiCHVatLieuXayDung.Forms
             InitializeComponent();
         }
 
+        // Nạp danh sách hóa đơn vào DataGridView khi form load
         private void frmHoaDon_Load(object sender, EventArgs e)
         {
             dataGridView.AutoGenerateColumns = false;
+
+            // Lấy danh sách hóa đơn với tổng tiền tính từ chi tiết
             List<DanhSachHoaDon> hd = context.HoaDon.Select(r => new DanhSachHoaDon
             {
                 ID = r.ID,
@@ -32,12 +35,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 HoVaTenKhachHang = r.KhachHang.TenKhachHang,
                 NgayLap = r.NgayLap,
                 GhiChuHoaDon = r.GhiChuHoaDon,
+                // Tính tổng tiền bằng tổng (SoLuong * DonGia) từ bảng chi tiết
                 TongTienHoaDon = r.HoaDon_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGia),
-                XemChiTiet = "Xem chi tiết"
+                TrangThaiThanhToan = r.TrangThaiThanhToan,
+                XemChiTiet = "Xem chi tiết",
             }).ToList();
             dataGridView.DataSource = hd;
         }
 
+        // Mở form chi tiết hóa đơn để thêm mới
         private void btnLapHoaDon_Click(object sender, EventArgs e)
         {
             using (frmHoaDon_ChiTiet chiTiet = new frmHoaDon_ChiTiet())
@@ -47,11 +53,12 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Mở form chi tiết hóa đơn để sửa bản ghi đã chọn
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
             {
-                id = Convert.ToInt32(dataGridView.CurrentRow.Cells["ID"].Value);
+                id = Convert.ToInt32(dataGridView.CurrentRow.Cells["HDID"].Value);
                 using (frmHoaDon_ChiTiet chiTiet = new frmHoaDon_ChiTiet(id))
                 {
                     chiTiet.ShowDialog();
@@ -60,24 +67,52 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xóa hóa đơn: phục hồi tồn kho, xóa chi tiết rồi xóa hóa đơn (với Transaction)
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow != null)
             {
-                id = Convert.ToInt32(dataGridView.CurrentRow.Cells["ID"].Value);
+                id = Convert.ToInt32(dataGridView.CurrentRow.Cells["HDID"].Value);
                 DialogResult dr = MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    var hd = context.HoaDon.Find(id);
-                    if (hd != null)
+                    // Sử dụng Transaction
+                    using (var trans = context.Database.BeginTransaction())
                     {
-                        var chiTiets = context.HoaDon_ChiTiet.Where(ct => ct.HoaDonID == id).ToList();
-                        decimal tongTien = hd.HoaDon_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGia);
-                        context.HoaDon_ChiTiet.RemoveRange(chiTiets);
-                        context.HoaDon.Remove(hd);
-                        context.SaveChanges();
-                        NhatKyHeThong.GhiNhatKy("Xóa", "Hóa đơn", $"Xóa hóa đơn ID: {id} - Tổng tiền: {tongTien:N0}");
-                        frmHoaDon_Load(sender, e);
+                        try
+                        {
+                            var hd = context.HoaDon.Find(id);
+                            if (hd != null)
+                            {
+                                var chiTiets = context.HoaDon_ChiTiet.Where(ct => ct.HoaDonID == id).ToList();
+                                decimal tongTien = hd.HoaDon_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGia);
+
+                                // Khôi phục tồn kho
+                                foreach (var ct in chiTiets)
+                                {
+                                    var sp = context.SanPham.Find(ct.SanPhamID);
+                                    if (sp != null)
+                                    {
+                                        sp.SoLuong += ct.SoLuong;  // Cộng ngược lại
+                                        context.SanPham.Update(sp);
+                                    }
+                                }
+
+                                context.HoaDon_ChiTiet.RemoveRange(chiTiets);
+                                context.HoaDon.Remove(hd);
+                                context.SaveChanges();
+                                trans.Commit();
+
+                                NhatKyHeThong.GhiNhatKy("Xóa", "Hóa đơn", $"Xóa hóa đơn ID: {id} - Tổng tiền: {tongTien:N0}");
+                                MessageBox.Show("Xóa hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                frmHoaDon_Load(sender, e);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            trans.Rollback();
+                            MessageBox.Show("Lỗi khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
@@ -88,13 +123,32 @@ namespace QuanLiCHVatLieuXayDung.Forms
             this.Close();
         }
 
+        // Ghi nhận thanh toán cho hóa đơn
+        private void btnThanhToan_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.CurrentRow != null)
+            {
+                id = Convert.ToInt32(dataGridView.CurrentRow.Cells["HDID"].Value);
+                using (frmThanhToan frmThanhToan = new frmThanhToan(id))
+                {
+                    frmThanhToan.ShowDialog();
+                    frmHoaDon_Load(sender, e);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn để ghi nhận thanh toán.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        // Xử lý nhấn nút Xem chi tiết trong DataGridView
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
             if (e.RowIndex < 0) return;
             if (dataGridView.Columns["ChiTiet"] != null && e.ColumnIndex == dataGridView.Columns["ChiTiet"].Index)
             {
-                id = Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells["ID"].Value);
+                id = Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells["HDID"].Value);
                 using (frmHoaDon_ChiTiet chiTiet = new frmHoaDon_ChiTiet(id))
                 {
                     chiTiet.ShowDialog();
@@ -103,6 +157,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xuất danh sách hóa đơn và chi tiết sang file Excel
         private void btnXuat_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -166,6 +221,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Nhập dữ liệu hóa đơn từ Excel (hai sheet: HoaDon và HoaDon_ChiTiet)
         private void btnNhap_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -199,10 +255,8 @@ namespace QuanLiCHVatLieuXayDung.Forms
                                 table1.Rows.Add();
                                 int cellIndex = 0;
                                 foreach (IXLCell cell in row.Cells(readRange))
-                                {
                                     table1.Rows[table1.Rows.Count - 1][cellIndex] = cell.Value.ToString();
                                     cellIndex++;
-                                }
                             }
                         }
 
@@ -222,10 +276,8 @@ namespace QuanLiCHVatLieuXayDung.Forms
                                 table2.Rows.Add();
                                 int cellIndex = 0;
                                 foreach (IXLCell cell in row.Cells(readRange))
-                                {
                                     table2.Rows[table2.Rows.Count - 1][cellIndex] = cell.Value.ToString();
                                     cellIndex++;
-                                }
                             }
                         }
 
@@ -264,15 +316,17 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // In hóa đơn đã chọn
         private void btnInHoaDon_Click(object sender, EventArgs e)
         {
-            id = Convert.ToInt32(dataGridView.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dataGridView.CurrentRow.Cells["HDID"].Value.ToString());
             using (frmInHoaDon inHoaDon = new frmInHoaDon(id))
             {
                 inHoaDon.ShowDialog();
             }
         }
 
+        // Lọc danh sách hóa đơn theo khoảng thời gian
         private void btnLoc_Click(object sender, EventArgs e)
         {
             DateTime tuNgay = dtpTuNgay.Value.Date;
@@ -294,7 +348,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                     NgayLap = r.NgayLap,
                     GhiChuHoaDon = r.GhiChuHoaDon,
                     TongTienHoaDon = r.HoaDon_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGia),
-                    XemChiTiet = "Xem chi tiết"
+                    XemChiTiet = "Xem chi tiết",
                 }).ToList();
                 dataGridView.DataSource = hd;
 

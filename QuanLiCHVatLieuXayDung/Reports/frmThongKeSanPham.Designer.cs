@@ -28,25 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
+            panel1 = new Panel();
             label1 = new Label();
             cboHangSanXuat = new ComboBox();
             cboLoaiSanPham = new ComboBox();
             label2 = new Label();
             btnLocKetQua = new Button();
-            panel1 = new Panel();
-            panel2 = new Panel();
+            splitContainer1 = new SplitContainer();
+            reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
-            // reportViewer
+            // panel1
             // 
-            reportViewer.Location = new Point(0, 3);
-            reportViewer.Name = "reportViewer";
-            reportViewer.ServerReport.BearerToken = null;
-            reportViewer.Size = new Size(1057, 475);
-            reportViewer.TabIndex = 0;
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(cboHangSanXuat);
+            panel1.Controls.Add(cboLoaiSanPham);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnLocKetQua);
+            panel1.Location = new Point(34, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1026, 94);
+            panel1.TabIndex = 8;
             // 
             // label1
             // 
@@ -92,52 +99,59 @@
             btnLocKetQua.UseVisualStyleBackColor = true;
             btnLocKetQua.Click += btnLocKetQua_Click;
             // 
-            // panel1
+            // splitContainer1
             // 
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(cboHangSanXuat);
-            panel1.Controls.Add(cboLoaiSanPham);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(btnLocKetQua);
-            panel1.Location = new Point(31, 14);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(975, 94);
-            panel1.TabIndex = 8;
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = Orientation.Horizontal;
             // 
-            // panel2
+            // splitContainer1.Panel1
             // 
-            panel2.Controls.Add(reportViewer);
-            panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 137);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1060, 478);
-            panel2.TabIndex = 9;
+            splitContainer1.Panel1.Controls.Add(panel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(reportViewer);
+            splitContainer1.Size = new Size(1078, 615);
+            splitContainer1.SplitterDistance = 123;
+            splitContainer1.TabIndex = 10;
+            // 
+            // reportViewer
+            // 
+            reportViewer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            reportViewer.Location = new Point(17, 14);
+            reportViewer.Name = "reportViewer";
+            reportViewer.ServerReport.BearerToken = null;
+            reportViewer.Size = new Size(1043, 462);
+            reportViewer.TabIndex = 2;
             // 
             // frmThongKeSanPham
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1060, 615);
-            Controls.Add(panel1);
-            Controls.Add(panel2);
+            ClientSize = new Size(1078, 615);
+            Controls.Add(splitContainer1);
             Name = "frmThongKeSanPham";
             Text = "Thống kê sản phẩm";
             Load += frmThongKeSanPham_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
+        private Panel panel1;
         private Label label1;
         private ComboBox cboHangSanXuat;
         private ComboBox cboLoaiSanPham;
         private Label label2;
         private Button btnLocKetQua;
-        private Panel panel1;
-        private Panel panel2;
+        private SplitContainer splitContainer1;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
     }
 }

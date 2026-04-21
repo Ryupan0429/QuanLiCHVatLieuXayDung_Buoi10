@@ -7,6 +7,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace QuanLiCHVatLieuXayDung.Forms
 {
+    // Form đăng nhập: xử lý giao diện đăng nhập (hiển thị, bắt phím Enter, hủy)
     public partial class frmDangNhap : Form
     {
         public frmDangNhap()
@@ -29,6 +30,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             this.DialogResult = DialogResult.Cancel;
         }
 
+        // Bắt sự kiện Enter trên textbox mật khẩu để kích hoạt đăng nhập
         private void txtMatKhau_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)

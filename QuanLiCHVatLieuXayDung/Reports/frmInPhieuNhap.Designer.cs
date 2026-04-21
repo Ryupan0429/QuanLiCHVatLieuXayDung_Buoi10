@@ -43,23 +43,24 @@
             // 
             // reportViewer1
             // 
-            reportViewer1.Dock = DockStyle.Fill;
+            reportViewer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             reportViewer1.Location = new Point(0, 0);
             reportViewer1.Name = "reportViewer1";
             reportViewer1.ServerReport.BearerToken = null;
-            reportViewer1.Size = new Size(800, 450);
+            reportViewer1.Size = new Size(1221, 450);
             reportViewer1.TabIndex = 2;
             // 
             // frmInPhieuNhap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1227, 450);
             Controls.Add(reportViewer1);
             Controls.Add(pictureBox1);
             Name = "frmInPhieuNhap";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "In Phiếu Nhập";
+            WindowState = FormWindowState.Maximized;
             Load += frmInPhieuNhap_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

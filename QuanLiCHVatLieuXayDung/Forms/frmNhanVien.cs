@@ -13,6 +13,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmNhanVien : Form
     {
+        // Form quản lý nhân viên: thêm/sửa/xóa, nhập xuất Excel, tìm kiếm
         public frmNhanVien()
         {
             InitializeComponent();
@@ -22,12 +23,14 @@ namespace QuanLiCHVatLieuXayDung.Forms
         bool xuLyThem = false;
         int idHienTai;
 
+        // Load danh sách nhân viên khi form mở
         private void frmNhanVien_Load(object sender, EventArgs e)
         {
             BatTatChucNang(false);
             LoadData();
         }
 
+        // Nạp dữ liệu nhân viên vào grid (sử dụng DTO DanhSachNhanVien để hiển thị các cột phụ)
         private void LoadData()
         {
             dataGridView.DataSource = context.NhanVien.Select(nv => new DanhSachNhanVien
@@ -43,6 +46,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }).ToList();
         }
 
+        // Bật/tắt control theo trạng thái chỉnh sửa
         public void BatTatChucNang(bool isEditing)
         {
             btnThem.Enabled = !isEditing;
@@ -59,6 +63,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             chkQuyenHan.Enabled = isEditing;
         }
 
+        // Thêm mới: bật chế độ thêm và reset form
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;
@@ -66,6 +71,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             XoaTrang();
         }
 
+        // Xóa nội dung input
         private void XoaTrang()
         {
             txtHoTen.Clear();
@@ -76,12 +82,45 @@ namespace QuanLiCHVatLieuXayDung.Forms
             chkQuyenHan.Checked = false;
         }
 
+        // Lưu nhân viên: thêm mới hoặc cập nhật
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtTenDangNhap.Text)) return;
+            // Validate dữ liệu cơ bản
+            if (string.IsNullOrEmpty(txtHoTen.Text) || string.IsNullOrEmpty(txtTenDangNhap.Text))
+            {
+                MessageBox.Show("Họ tên và tên đăng nhập không được để trống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtTenDangNhap.Text.Length > 50)
+            {
+                MessageBox.Show("Tên đăng nhập không được vượt quá 50 ký tự!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if (string.IsNullOrEmpty(txtMatKhau.Text))
+            {
+                MessageBox.Show("Mật khẩu không được để trống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if(txtMatKhau.Text.Length < 6)
+            {
+                MessageBox.Show("Mật khẩu phải có ít nhất 6 ký tự!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtDienThoai.Text, @"^\d{10}$"))
+            {
+                MessageBox.Show("Số điện thoại phải có 10 chữ số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Khi sửa, cho phép giữ nguyên tên đăng nhập hiện tại nhưng không được trùng với nhân viên khác, khi thêm thì không được trùng với bất kỳ nhân viên nào
 
             if (xuLyThem)
             {
+                if (context.NhanVien.Any(nv => nv.TenDangNhap == txtTenDangNhap.Text))
+                {
+                    MessageBox.Show("Tên đăng nhập đã tồn tại, vui lòng chọn tên khác", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 NhanVien nv = new NhanVien();
                 nv.HoVaTen = txtHoTen.Text;
                 nv.TenDangNhap = txtTenDangNhap.Text;
@@ -95,6 +134,12 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
             else
             {
+                if (context.NhanVien.Any(nv => nv.TenDangNhap == txtTenDangNhap.Text && nv.ID != idHienTai)
+                    )
+                {
+                    MessageBox.Show("Tên đăng nhập không được trùng với nhân viên khác", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 var nv = context.NhanVien.Find(idHienTai);
                 if (nv != null)
                 {
@@ -112,6 +157,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             LoadData();
         }
 
+        // Khi click hàng trên grid: nạp thông tin nhân viên vào form để sửa
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -128,6 +174,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Bật chế độ sửa
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
@@ -135,6 +182,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             BatTatChucNang(true);
         }
 
+        // Xóa nhân viên, xử lý ngoại lệ nếu có ràng buộc FK
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
@@ -169,6 +217,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             this.Close();
         }
 
+        // Xuất danh sách nhân viên ra Excel
         private void btnXuat_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -210,6 +259,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Nhập danh sách nhân viên từ file Excel, tạo mật khẩu mặc định cho user mới
         private void btnNhap_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -259,6 +309,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
         }
 
+        // Tìm kiếm nhân viên theo tên hoặc tên đăng nhập
         private void btnTim_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtTimKiem.Text))

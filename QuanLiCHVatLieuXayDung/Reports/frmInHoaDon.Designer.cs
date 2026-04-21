@@ -33,22 +33,23 @@
             // 
             // reportViewer1
             // 
-            reportViewer1.Dock = DockStyle.Fill;
+            reportViewer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             reportViewer1.Location = new Point(0, 0);
             reportViewer1.Name = "reportViewer1";
             reportViewer1.ServerReport.BearerToken = null;
-            reportViewer1.Size = new Size(800, 450);
+            reportViewer1.Size = new Size(1164, 450);
             reportViewer1.TabIndex = 1;
             // 
             // frmInHoaDon
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1164, 450);
             Controls.Add(reportViewer1);
             Name = "frmInHoaDon";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "In hóa đơn";
+            WindowState = FormWindowState.Maximized;
             Load += frmInHoaDon_Load;
             ResumeLayout(false);
         }

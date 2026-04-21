@@ -11,6 +11,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmLoaiSanPham : Form
     {
+        // Form quản lý loại sản phẩm: thêm/sửa/xóa, nhập/xuất Excel
         public frmLoaiSanPham()
         {
             InitializeComponent();
@@ -20,17 +21,20 @@ namespace QuanLiCHVatLieuXayDung.Forms
         bool xuLyThem = false;
         int idHienTai;
 
+        // Load danh sách loại sản phẩm
         private void frmLoaiSanPham_Load(object sender, EventArgs e)
         {
             BatTatChucNang(false);
             LoadData();
         }
 
+        // Nạp dữ liệu vào grid
         private void LoadData()
         {
             dataGridView.DataSource = context.LoaiSanPham.ToList();
         }
 
+        // Bật/tắt control theo trạng thái chỉnh sửa
         public void BatTatChucNang(bool isEditing)
         {
             btnThem.Enabled = !isEditing;
@@ -42,6 +46,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             txtTenLoai.Enabled = isEditing;
         }
 
+        // Thêm mới
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;
@@ -49,6 +54,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             txtTenLoai.Clear();
         }
 
+        // Sửa
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
@@ -56,6 +62,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             BatTatChucNang(true);
         }
 
+        // Lưu (thêm hoặc cập nhật)
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenLoai.Text)) return;
@@ -81,6 +88,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             LoadData();
         }
 
+        // Xóa loại sản phẩm
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
@@ -97,6 +105,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Chọn 1 dòng trên grid để nạp dữ liệu vào ô input
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -110,6 +119,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Nhập danh sách loại từ Excel
         private void btnNhap_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog { Filter = "Excel|*.xlsx" };
@@ -138,6 +148,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Xuất danh sách loại sản phẩm ra Excel
         private void btnXuat_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog { Filter = "Excel|*.xlsx", FileName = "LoaiSanPham_" + DateTime.Now.ToShortDateString().Replace("/", "_") + ".xlsx" };

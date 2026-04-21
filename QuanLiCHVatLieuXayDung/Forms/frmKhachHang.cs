@@ -6,12 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmKhachHang : Form
     {
+
         public frmKhachHang()
         {
             InitializeComponent();
@@ -70,19 +72,55 @@ namespace QuanLiCHVatLieuXayDung.Forms
             BatTatChucNang(true);
         }
 
+        private bool ValidateInput(out decimal tongNo)
+        {
+            tongNo = 0;
+            // TenKhachHang không được để trống
+            if (string.IsNullOrWhiteSpace(txtTenKhachHang.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên khách hàng.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTenKhachHang.Focus();
+                return false;
+            }
+
+            // SoDienThoai phải có 10 chữ số
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtSoDienThoai.Text, @"^\d{10}$"))
+            {
+                MessageBox.Show("Số điện thoại phải có 10 chữ số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // TongNo phải là số, nếu để trống thì mặc định là 0
+            if (string.IsNullOrWhiteSpace(txtTongNo.Text))
+            {
+                tongNo = 0m;
+            }
+            else
+            {
+                if (!decimal.TryParse(txtTongNo.Text, out tongNo))
+                {
+                    MessageBox.Show("Tổng nợ phải là một số (ví dụ: 12345.67).", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtTongNo.Focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenKhachHang.Text)) return;
+            if (!ValidateInput(out decimal tongNo)) return;
 
             if (xuLyThem)
             {
                 KhachHang kh = new KhachHang
                 {
-                    TenKhachHang = txtTenKhachHang.Text,
-                    SoDienThoai = txtSoDienThoai.Text,
-                    DiaChi = txtDiaChi.Text,
-                    LoaiKhachHang = txtLoaiKhach.Text,
-                    TongNo = decimal.Parse(txtTongNo.Text)
+                    TenKhachHang = txtTenKhachHang.Text.Trim(),
+                    SoDienThoai = txtSoDienThoai.Text.Trim(),
+                    DiaChi = txtDiaChi.Text.Trim(),
+                    LoaiKhachHang = txtLoaiKhach.Text.Trim(),
+                    TongNo = tongNo
                 };
                 context.KhachHang.Add(kh);
                 context.SaveChanges();
@@ -93,11 +131,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
                 var kh = context.KhachHang.Find(idHienTai);
                 if (kh != null)
                 {
-                    kh.TenKhachHang = txtTenKhachHang.Text;
-                    kh.SoDienThoai = txtSoDienThoai.Text;
-                    kh.DiaChi = txtDiaChi.Text;
-                    kh.LoaiKhachHang = txtLoaiKhach.Text;
-                    kh.TongNo = decimal.Parse(txtTongNo.Text);
+                    kh.TenKhachHang = txtTenKhachHang.Text.Trim();
+                    kh.SoDienThoai = txtSoDienThoai.Text.Trim();
+                    kh.DiaChi = txtDiaChi.Text.Trim();
+                    kh.LoaiKhachHang = txtLoaiKhach.Text.Trim();
+                    kh.TongNo = tongNo;
                     context.SaveChanges();
                     NhatKyHeThong.GhiNhatKy("Sửa", "Khách hàng", "Cập nhật khách hàng ID: " + kh.ID);
                 }
@@ -126,7 +164,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
         {
             if (e.RowIndex >= 0)
             {
-                idHienTai = (int)dataGridView.Rows[e.RowIndex].Cells["KhachHangID"].Value;
+                // Safely get ID from cell
+                var cellVal = dataGridView.Rows[e.RowIndex].Cells["KhachHangID"].Value;
+                if (cellVal == null) return;
+                if (!int.TryParse(cellVal.ToString(), out idHienTai)) return;
+
                 var kh = context.KhachHang.Find(idHienTai);
                 if (kh != null)
                 {
@@ -214,6 +256,11 @@ namespace QuanLiCHVatLieuXayDung.Forms
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
             frmKhachHang_Load(sender, e);
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

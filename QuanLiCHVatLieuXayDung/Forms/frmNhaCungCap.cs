@@ -5,12 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace QuanLyBanHang.Forms
+namespace QuanLiCHVatLieuXayDung.Forms
 {
     public partial class frmNhaCungCap : Form
     {
+        // Form quản lý nhà cung cấp. Các ghi chú và quy tắc xác thực:
+        //  - TenNhaCungCap là bắt buộc
+        //  - SoDienThoai nếu có thì phải đúng định dạng (cho phép chữ số, dấu +, khoảng trắng, dấu - và dấu ngoặc)
+
         public frmNhaCungCap()
         {
             InitializeComponent();
@@ -65,17 +70,40 @@ namespace QuanLyBanHang.Forms
             BatTatChucNang(true);
         }
 
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrWhiteSpace(txtTenNhaCungCap.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên nhà cung cấp.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTenNhaCungCap.Focus();
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtSDT.Text))
+            {
+                var phonePattern = new Regex(@"^[0-9\+\-\s\(\)]{7,}$");
+                if (!phonePattern.IsMatch(txtSDT.Text.Trim()))
+                {
+                    MessageBox.Show("Số điện thoại không đúng định dạng.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtSDT.Focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNhaCungCap.Text)) return;
+            if (!ValidateInput()) return;
 
             if (xuLyThem)
             {
                 NhaCungCap ncc = new NhaCungCap
                 {
-                    TenNhaCungCap = txtTenNhaCungCap.Text,
-                    SoDienThoai = txtSDT.Text,
-                    DiaChi = txtDiaChi.Text
+                    TenNhaCungCap = txtTenNhaCungCap.Text.Trim(),
+                    SoDienThoai = txtSDT.Text.Trim(),
+                    DiaChi = txtDiaChi.Text.Trim()
                 };
                 context.NhaCungCap.Add(ncc);
                 context.SaveChanges();
@@ -86,9 +114,9 @@ namespace QuanLyBanHang.Forms
                 var ncc = context.NhaCungCap.Find(idHienTai);
                 if (ncc != null)
                 {
-                    ncc.TenNhaCungCap = txtTenNhaCungCap.Text;
-                    ncc.SoDienThoai = txtSDT.Text;
-                    ncc.DiaChi = txtDiaChi.Text;
+                    ncc.TenNhaCungCap = txtTenNhaCungCap.Text.Trim();
+                    ncc.SoDienThoai = txtSDT.Text.Trim();
+                    ncc.DiaChi = txtDiaChi.Text.Trim();
                     context.SaveChanges();
                     NhatKyHeThong.GhiNhatKy("Sửa", "Nhà cung cấp", "Cập nhật NCC ID: " + ncc.ID);
                 }
@@ -117,7 +145,10 @@ namespace QuanLyBanHang.Forms
         {
             if (e.RowIndex >= 0)
             {
-                idHienTai = (int)dataGridView.Rows[e.RowIndex].Cells["NCCID"].Value;
+                var cellVal = dataGridView.Rows[e.RowIndex].Cells["NCCID"].Value;
+                if (cellVal == null) return;
+                if (!int.TryParse(cellVal.ToString(), out idHienTai)) return;
+
                 var ncc = context.NhaCungCap.Find(idHienTai);
                 if (ncc != null)
                 {

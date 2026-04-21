@@ -18,14 +18,15 @@ namespace QuanLiCHVatLieuXayDung.Forms
 
         QLCHVLXDDbContext context = new QLCHVLXDDbContext();
 
+        // Khi load, khởi tạo khoảng thời gian mặc định (từ đầu tháng đến hôm nay) và nạp dữ liệu
         private void frmLichSuHoatDong_Load(object sender, EventArgs e)
         {
-            dataGridView.AutoGenerateColumns = false;
             dtpTuNgay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             dtpDenNgay.Value = DateTime.Now;
             LoadData();
         }
 
+        // Nạp dữ liệu nhật ký trong khoảng thời gian chọn
         private void LoadData()
         {
             try
@@ -55,11 +56,13 @@ namespace QuanLiCHVatLieuXayDung.Forms
             }
         }
 
+        // Lọc theo khoảng thời gian và nạp lại dữ liệu
         private void btnLoc_Click(object sender, EventArgs e)
         {
             LoadData();
         }
 
+        // Xuất dữ liệu nhật ký ra Excel
         private void btnXuatExcel_Click(object sender, EventArgs e)
         {
             if (dataGridView.Rows.Count == 0)

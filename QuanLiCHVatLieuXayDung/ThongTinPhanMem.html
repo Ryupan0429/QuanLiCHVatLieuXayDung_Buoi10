@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Phần Mềm - Quản Lý Cửa Hàng Vật Liệu Xây Dựng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .info-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .feature-item strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .copyright {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .copyright strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .footer strong {
+            color: #333;
+            display: block;
+            margin-top: 15px;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .contact-item {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .contact-item strong {
+            color: #1565c0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.4em;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Quản Lý Cửa Hàng Vật Liệu Xây Dựng</h1>
+            <p>Thông Tin Phần Mềm</p>
+        </div>
+        
+        <div class="content">
+            <!-- Thông Tin Cơ Bản -->
+            <div class="section">
+                <h2>ℹ️ Thông Tin Cơ Bản</h2>
+                
+                <div class="info-box">
+                    <strong>Tên Phần Mềm:</strong>
+                    <p>Quản Lý Cửa Hàng Vật Liệu Xây Dựng</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Phiên Bản:</strong>
+                    <p>1.0.0</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Ngày Phát Hành:</strong>
+                    <p>20/04/2026</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Nền Tảng:</strong>
+                    <p>.NET Framework 8.0 (Windows)</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Loại Ứng Dụng:</strong>
+                    <p>Ứng dụng Desktop (Windows Forms)</p>
+                </div>
+            </div>
+            
+            <!-- Bản Quyền -->
+            <div class="section">
+                <h2>©️ Bản Quyền</h2>
+                
+                <div class="copyright">
+                    <strong>Chủ Sở Hữu Bản Quyền:</strong>
+                    <p><strong>Lê Thị Tường Vy</strong></p>
+                    <p>Mã Sinh Viên: <strong>DTH235818</strong></p>
+                    <p style="margin-top: 15px; font-style: italic;">
+                        © 2026 - Tất cả quyền được bảo lưu. Cấm sao chép, sửa đổi hoặc phân phối phần mềm này mà không có sự cho phép của chủ sở hữu.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Tính Năng Chính -->
+            <div class="section">
+                <h2>⭐ Tính Năng Chính</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>📦 Quản Lý Sản Phẩm</strong>
+                        <p>Quản lý danh mục sản phẩm, theo dõi tồn kho, cập nhật giá cả và hình ảnh sản phẩm</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>🏢 Quản Lý Nhà Cung Cấp</strong>
+                        <p>Lưu trữ thông tin nhà cung cấp, liên hệ và điều khoản hợp tác</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>👥 Quản Lý Khách Hàng</strong>
+                        <p>Theo dõi thông tin khách hàng, lịch sử giao dịch và nợ tính</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>💳 Lập Hóa Đơn</strong>
+                        <p>Tạo và quản lý hóa đơn bán hàng với chi tiết sản phẩm và thanh toán</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>📥 Quản Lý Phiếu Nhập</strong>
+                        <p>Ghi nhận phiếu nhập hàng từ nhà cung cấp và cập nhật tồn kho</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>👔 Quản Lý Nhân Viên</strong>
+                        <p>Quản lý danh sách nhân viên với phân quyền truy cập (Quản lý / Bán hàng)</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>📊 Báo Cáo Kinh Doanh</strong>
+                        <p>Xem báo cáo doanh thu, chi tiêu, thống kê sản phẩm và nợ khách hàng</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>📋 Lịch Sử Hoạt Động</strong>
+                        <p>Ghi lại toàn bộ hoạt động của hệ thống để kiểm toán và theo dõi</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>💾 Nhập/Xuất Excel</strong>
+                        <p>Hỗ trợ nhập dữ liệu từ Excel và xuất danh sách ra Excel</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <strong>🔐 Bảo Mật Mật Khẩu</strong>
+                        <p>Mã hóa mật khẩu bằng BCrypt để bảo vệ tài khoản người dùng</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Yêu Cầu Hệ Thống -->
+            <div class="section">
+                <h2>⚙️ Yêu Cầu Hệ Thống</h2>
+                
+                <h3>Tối Thiểu:</h3>
+                <div class="info-box">
+                    <p>• <strong>Hệ Điều Hành:</strong> Windows 7 trở lên</p>
+                    <p>• <strong>Bộ Xử Lý:</strong> Intel Core 2 Duo hoặc tương đương</p>
+                    <p>• <strong>RAM:</strong> 2 GB</p>
+                    <p>• <strong>Ổ Cứng:</strong> 500 MB dung lượng trống</p>
+                    <p>• <strong>.NET Framework:</strong> .NET 8.0</p>
+                </div>
+                
+                <h3>Khuyến Nghị:</h3>
+                <div class="info-box">
+                    <p>• <strong>Hệ Điều Hành:</strong> Windows 10/11</p>
+                    <p>• <strong>Bộ Xử Lý:</strong> Intel Core i5 hoặc tương đương</p>
+                    <p>• <strong>RAM:</strong> 4 GB hoặc hơn</p>
+                    <p>• <strong>Ổ Cứng:</strong> SSD 1 GB dung lượng trống</p>
+                    <p>• <strong>.NET Framework:</strong> .NET 8.0</p>
+                </div>
+            </div>
+            
+            <!-- Công Nghệ Sử Dụng -->
+            <div class="section">
+                <h2>🔧 Công Nghệ Sử Dụng</h2>
+                
+                <div class="info-box">
+                    <strong>Ngôn Ngữ Lập Trình:</strong>
+                    <p>C# với .NET Framework 8.0</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Giao Diện:</strong>
+                    <p>Windows Forms</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Cơ Sở Dữ Liệu:</strong>
+                    <p>Entity Framework Core (SQL Server / SQLite)</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Thư Viện Bên Ngoài:</strong>
+                    <p>• ClosedXML - Xuất/Nhập Excel<br>
+                       • BCrypt.NET - Mã hóa mật khẩu<br>
+                       • Slugify - Tạo tên file an toàn</p>
+                </div>
+            </div>
+            
+            <!-- Tác Giả và Liên Hệ -->
+            <div class="section">
+                <h2>👤 Tác Giả và Liên Hệ</h2>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <strong>Tác Giả:</strong>
+                        <p>Lê Thị Tường Vy</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <strong>Mã Sinh Viên:</strong>
+                        <p>DTH235818</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lịch Sử Phiên Bản -->
+            <div class="section">
+                <h2>📝 Lịch Sử Phiên Bản</h2>
+                
+                <h3>Phiên Bản 1.0.0 (20/04/2026)</h3>
+                <div class="info-box">
+                    <p><strong>✓ Phát Hành Ban Đầu</strong></p>
+                    <p>Bao gồm tất cả các tính năng cơ bản:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Quản lý sản phẩm, khách hàng, nhân viên</li>
+                        <li>Lập hóa đơn và phiếu nhập</li>
+                        <li>Báo cáo kinh doanh</li>
+                        <li>Nhập/xuất Excel</li>
+                        <li>Bảo mật mật khẩu</li>
+                        <li>Ghi lịch sử hoạt động</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Giấy Phép Sử Dụng -->
+            <div class="section">
+                <h2>📜 Giấy Phép Sử Dụng</h2>
+                
+                <div class="copyright">
+                    <strong>Điều Khoản Sử Dụng:</strong>
+                    <p>Phần mềm này được cung cấp "như hiện tại" mà không có bất kỳ bảo hành nào. Người dùng chịu trách nhiệm sử dụng phần mềm này đúng cách và tuân thủ các quy định pháp luật hiện hành.</p>
+                    <p style="margin-top: 15px;">Cấm:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Sao chép, phân phối hoặc bán lại phần mềm này</li>
+                        <li>Sửa đổi, dịch ngược hoặc cố gắng phá vỡ mã nguồn</li>
+                        <li>Sử dụng phần mềm cho mục đích thương mại mà không được phép</li>
+                        <li>Tháo dỡ các thông báo bản quyền hoặc giấy phép</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Hỗ Trợ và Cải Thiện -->
+            <div class="section">
+                <h2>🤝 Hỗ Trợ và Cải Thiện</h2>
+                
+                <div class="info-box">
+                    <strong>Phản Hồi và Gợi Ý:</strong>
+                    <p>Nếu bạn gặp vấn đề hoặc có gợi ý cải thiện phần mềm, vui lòng liên hệ với tác giả hoặc nhóm phát triển.</p>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Báo Cáo Lỗi:</strong>
+                    <p>Nếu phát hiện lỗi, vui lòng báo cáo chi tiết lỗi đó (thời gian, bước để tái tạo lỗi) để giúp cải thiện phần mềm.</p>
+                </div>
+            </div>
+            
+            <!-- Cảm Ơn -->
+            <div class="section">
+                <h2>🙏 Cảm Ơn</h2>
+                <div class="info-box">
+                    <p>Cảm ơn bạn đã sử dụng Phần Mềm Quản Lý Cửa Hàng Vật Liệu Xây Dựng. Chúng tôi hy vọng phần mềm này sẽ giúp ích cho công việc kinh doanh của bạn.</p>
+                    <p style="margin-top: 15px;">Hãy cho chúng tôi biết ý kiến của bạn để chúng tôi có thể cải thiện phần mềm hơn nữa.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Quản Lý Cửa Hàng Vật Liệu Xây Dựng v1.0.0</strong>
+            <p>© 2026 - Bản Quyền Thuộc Về Lê Thị Tường Vy (DTH235818)</p>
+            <p>Tất cả quyền được bảo lưu</p>
+            <p style="margin-top: 20px; font-size: 0.9em; color: #999;">
+                Cập nhật lần cuối: 20/04/2026
+            </p>
+        </div>
+    </div>
+</body>
+</html>

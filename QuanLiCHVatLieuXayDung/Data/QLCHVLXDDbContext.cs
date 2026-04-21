@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuanLiCHVatLieuXayDung.Data
 {
-    public class QLCHVLXDDbContext : DbContext
+    public partial class QLCHVLXDDbContext : DbContext
     {
         public DbSet<LoaiSanPham> LoaiSanPham { get; set; }
         public DbSet<NhaCungCap> NhaCungCap { get; set; }
@@ -19,8 +19,9 @@ namespace QuanLiCHVatLieuXayDung.Data
         public DbSet<KhachHang> KhachHang { get; set; }
         public DbSet<HoaDon> HoaDon { get; set; }
         public DbSet<HoaDon_ChiTiet> HoaDon_ChiTiet { get; set; }
-
+        public DbSet<ThanhToan> ThanhToan { get; set; }
         public DbSet<LichSuHoatDong> LichSuHoatDong { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["QLCHVLXDConnection"].ConnectionString);
@@ -39,6 +40,19 @@ namespace QuanLiCHVatLieuXayDung.Data
                 .HasOne(ct => ct.SanPham)
                 .WithMany(sp => sp.HoaDon_ChiTiet)
                 .HasForeignKey(ct => ct.SanPhamID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Cấu hình ThanhToan
+            modelBuilder.Entity<ThanhToan>()
+                .HasOne(t => t.HoaDon)
+                .WithMany(h => h.ThanhToans)
+                .HasForeignKey(t => t.HoaDonID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ThanhToan>()
+                .HasOne(t => t.NhanVien)
+                .WithMany()
+                .HasForeignKey(t => t.NhanVienID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             foreach (var property in modelBuilder.Model.GetEntityTypes()

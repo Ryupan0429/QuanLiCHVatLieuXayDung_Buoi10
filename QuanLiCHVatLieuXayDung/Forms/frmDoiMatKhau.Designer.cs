@@ -40,6 +40,8 @@
             // 
             // txtOldPass
             // 
+            txtOldPass.BackColor = Color.White;
+            txtOldPass.ForeColor = Color.FromArgb(50, 50, 50);
             txtOldPass.Location = new Point(226, 32);
             txtOldPass.Name = "txtOldPass";
             txtOldPass.Size = new Size(183, 27);
@@ -47,6 +49,8 @@
             // 
             // txtNewPass
             // 
+            txtNewPass.BackColor = Color.White;
+            txtNewPass.ForeColor = Color.FromArgb(50, 50, 50);
             txtNewPass.Location = new Point(226, 65);
             txtNewPass.Name = "txtNewPass";
             txtNewPass.Size = new Size(183, 27);
@@ -54,22 +58,30 @@
             // 
             // btnDoiMatKhau
             // 
+            btnDoiMatKhau.BackColor = Color.FromArgb(0, 123, 255);
+            btnDoiMatKhau.FlatAppearance.BorderSize = 0;
+            btnDoiMatKhau.FlatStyle = FlatStyle.Flat;
+            btnDoiMatKhau.ForeColor = Color.White;
             btnDoiMatKhau.Location = new Point(251, 153);
             btnDoiMatKhau.Name = "btnDoiMatKhau";
             btnDoiMatKhau.Size = new Size(133, 29);
             btnDoiMatKhau.TabIndex = 2;
             btnDoiMatKhau.Text = "Đổi mật khẩu";
-            btnDoiMatKhau.UseVisualStyleBackColor = true;
+            btnDoiMatKhau.UseVisualStyleBackColor = false;
             btnDoiMatKhau.Click += btnDoiMatKhau_Click;
             // 
             // btnHuy
             // 
+            btnHuy.BackColor = Color.FromArgb(220, 53, 69);
+            btnHuy.FlatAppearance.BorderSize = 0;
+            btnHuy.FlatStyle = FlatStyle.Flat;
+            btnHuy.ForeColor = Color.White;
             btnHuy.Location = new Point(115, 153);
             btnHuy.Name = "btnHuy";
             btnHuy.Size = new Size(94, 29);
             btnHuy.TabIndex = 3;
             btnHuy.Text = "Hủy";
-            btnHuy.UseVisualStyleBackColor = true;
+            btnHuy.UseVisualStyleBackColor = false;
             btnHuy.Click += btnHuy_Click;
             // 
             // label1
@@ -101,6 +113,8 @@
             // 
             // txtNewPassAgain
             // 
+            txtNewPassAgain.BackColor = Color.White;
+            txtNewPassAgain.ForeColor = Color.FromArgb(50, 50, 50);
             txtNewPassAgain.Location = new Point(226, 98);
             txtNewPassAgain.Name = "txtNewPassAgain";
             txtNewPassAgain.Size = new Size(183, 27);
@@ -110,6 +124,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(475, 204);
             Controls.Add(label3);
             Controls.Add(txtNewPassAgain);
@@ -119,6 +135,7 @@
             Controls.Add(btnDoiMatKhau);
             Controls.Add(txtNewPass);
             Controls.Add(txtOldPass);
+            Font = new Font("Segoe UI", 9F);
             Name = "frmDoiMatKhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đổi mật khẩu";

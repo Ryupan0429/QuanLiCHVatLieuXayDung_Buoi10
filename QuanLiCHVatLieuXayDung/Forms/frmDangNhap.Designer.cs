@@ -42,18 +42,19 @@
             // 
             // btnDangNhap
             // 
+            btnDangNhap.BackColor = Color.LightSteelBlue;
             btnDangNhap.Location = new Point(203, 218);
             btnDangNhap.Name = "btnDangNhap";
             btnDangNhap.Size = new Size(107, 29);
             btnDangNhap.TabIndex = 16;
             btnDangNhap.Text = "Đăng nhập";
-            btnDangNhap.UseVisualStyleBackColor = true;
+            btnDangNhap.UseVisualStyleBackColor = false;
             btnDangNhap.Click += btnDangNhap_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(47, 82);
+            pictureBox1.Location = new Point(48, 92);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(120, 123);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -63,21 +64,23 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(251, 35);
+            label3.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.DarkBlue;
+            label3.Location = new Point(252, 39);
             label3.Name = "label3";
-            label3.Size = new Size(153, 31);
+            label3.Size = new Size(152, 25);
             label3.TabIndex = 14;
             label3.Text = "ĐĂNG NHẬP";
             // 
             // btnHuyBo
             // 
+            btnHuyBo.BackColor = Color.FromArgb(255, 192, 192);
             btnHuyBo.Location = new Point(345, 218);
             btnHuyBo.Name = "btnHuyBo";
             btnHuyBo.Size = new Size(107, 29);
             btnHuyBo.TabIndex = 13;
             btnHuyBo.Text = "Hủy bỏ";
-            btnHuyBo.UseVisualStyleBackColor = true;
+            btnHuyBo.UseVisualStyleBackColor = false;
             btnHuyBo.Click += btnHuyBo_Click;
             // 
             // txtMatKhau
@@ -118,6 +121,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(502, 290);
             Controls.Add(btnDangNhap);
             Controls.Add(pictureBox1);

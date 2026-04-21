@@ -15,6 +15,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             dataGridView = new DataGridView();
             PNID = new DataGridViewTextBoxColumn();
             NhanVien = new DataGridViewTextBoxColumn();
@@ -22,21 +23,21 @@
             NgayNhap = new DataGridViewTextBoxColumn();
             TongTien = new DataGridViewTextBoxColumn();
             ChiTiet = new DataGridViewLinkColumn();
-            btnNhap = new Button();
-            groupBox1 = new GroupBox();
-            btnThoat = new Button();
-            btnXuat = new Button();
-            btnTimKiem = new Button();
-            btnXoa = new Button();
-            btnSua = new Button();
-            btnInPhieuNhap = new Button();
             btnLapPhieuNhap = new Button();
-            btnLoc = new Button();
-            label2 = new Label();
-            dtpDenNgay = new DateTimePicker();
-            label1 = new Label();
-            dtpTuNgay = new DateTimePicker();
+            btnInPhieuNhap = new Button();
+            btnSua = new Button();
+            btnXoa = new Button();
+            btnXuat = new Button();
+            btnNhap = new Button();
+            btnThoat = new Button();
+            groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
+            btnHuy = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            dtpTuNgay = new DateTimePicker();
+            btnLoc = new Button();
+            dtpDenNgay = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -47,6 +48,14 @@
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowUserToDeleteRows = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { PNID, NhanVien, TenNhaCungCap, NgayNhap, TongTien, ChiTiet });
             dataGridView.Dock = DockStyle.Fill;
@@ -57,7 +66,7 @@
             dataGridView.ReadOnly = true;
             dataGridView.RowHeadersWidth = 51;
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.Size = new Size(1011, 496);
+            dataGridView.Size = new Size(1011, 440);
             dataGridView.TabIndex = 0;
             dataGridView.CellContentClick += dataGridView_CellContentClick;
             // 
@@ -88,9 +97,9 @@
             // NgayNhap
             // 
             NgayNhap.DataPropertyName = "NgayNhap";
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
-            NgayNhap.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "dd/MM/yyyy";
+            NgayNhap.DefaultCellStyle = dataGridViewCellStyle2;
             NgayNhap.HeaderText = "Ngày nhập";
             NgayNhap.MinimumWidth = 6;
             NgayNhap.Name = "NgayNhap";
@@ -99,11 +108,11 @@
             // TongTien
             // 
             TongTien.DataPropertyName = "TongTien";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.Blue;
-            dataGridViewCellStyle2.Format = "N0";
-            TongTien.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.Blue;
+            dataGridViewCellStyle3.Format = "N0";
+            TongTien.DefaultCellStyle = dataGridViewCellStyle3;
             TongTien.HeaderText = "Tổng tiền";
             TongTien.MinimumWidth = 6;
             TongTien.Name = "TongTien";
@@ -112,110 +121,163 @@
             // ChiTiet
             // 
             ChiTiet.DataPropertyName = "XemChiTiet";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ChiTiet.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ChiTiet.DefaultCellStyle = dataGridViewCellStyle4;
             ChiTiet.HeaderText = "Chi tiết";
             ChiTiet.MinimumWidth = 6;
             ChiTiet.Name = "ChiTiet";
             ChiTiet.ReadOnly = true;
             // 
+            // btnLapPhieuNhap
+            // 
+            btnLapPhieuNhap.BackColor = Color.FromArgb(0, 123, 255);
+            btnLapPhieuNhap.ForeColor = SystemColors.ControlLightLight;
+            btnLapPhieuNhap.Location = new Point(22, 14);
+            btnLapPhieuNhap.Margin = new Padding(4, 5, 4, 5);
+            btnLapPhieuNhap.Name = "btnLapPhieuNhap";
+            btnLapPhieuNhap.Size = new Size(160, 38);
+            btnLapPhieuNhap.TabIndex = 1;
+            btnLapPhieuNhap.Text = "Lập phiếu nhập mới...";
+            btnLapPhieuNhap.UseVisualStyleBackColor = false;
+            btnLapPhieuNhap.Click += btnLapPhieuNhap_Click;
+            // 
+            // btnInPhieuNhap
+            // 
+            btnInPhieuNhap.BackColor = Color.FromArgb(0, 123, 255);
+            btnInPhieuNhap.ForeColor = SystemColors.ControlLightLight;
+            btnInPhieuNhap.Location = new Point(190, 14);
+            btnInPhieuNhap.Margin = new Padding(4, 5, 4, 5);
+            btnInPhieuNhap.Name = "btnInPhieuNhap";
+            btnInPhieuNhap.Size = new Size(120, 38);
+            btnInPhieuNhap.TabIndex = 2;
+            btnInPhieuNhap.Text = "In phiếu nhập...";
+            btnInPhieuNhap.UseVisualStyleBackColor = false;
+            btnInPhieuNhap.Click += btnInPhieuNhap_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.BackColor = Color.FromArgb(0, 123, 255);
+            btnSua.ForeColor = SystemColors.ControlLightLight;
+            btnSua.Location = new Point(318, 14);
+            btnSua.Margin = new Padding(4, 5, 4, 5);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new Size(100, 38);
+            btnSua.TabIndex = 3;
+            btnSua.Text = "Sửa...";
+            btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.BackColor = Color.FromArgb(220, 53, 69);
+            btnXoa.ForeColor = SystemColors.ControlLightLight;
+            btnXoa.Location = new Point(442, 14);
+            btnXoa.Margin = new Padding(4, 5, 4, 5);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(100, 38);
+            btnXoa.TabIndex = 4;
+            btnXoa.Text = "Xóa";
+            btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // btnXuat
+            // 
+            btnXuat.BackColor = Color.FromArgb(0, 123, 255);
+            btnXuat.ForeColor = SystemColors.ControlLightLight;
+            btnXuat.Location = new Point(559, 14);
+            btnXuat.Margin = new Padding(4, 5, 4, 5);
+            btnXuat.Name = "btnXuat";
+            btnXuat.Size = new Size(113, 38);
+            btnXuat.TabIndex = 5;
+            btnXuat.Text = "Xuất Excel...";
+            btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
+            // 
             // btnNhap
             // 
-            btnNhap.Location = new Point(762, 26);
+            btnNhap.BackColor = Color.FromArgb(0, 123, 255);
+            btnNhap.ForeColor = SystemColors.ControlLightLight;
+            btnNhap.Location = new Point(695, 14);
             btnNhap.Margin = new Padding(4, 5, 4, 5);
             btnNhap.Name = "btnNhap";
             btnNhap.Size = new Size(113, 38);
-            btnNhap.TabIndex = 18;
+            btnNhap.TabIndex = 6;
             btnNhap.Text = "Nhập...";
-            btnNhap.UseVisualStyleBackColor = true;
+            btnNhap.UseVisualStyleBackColor = false;
             btnNhap.Click += btnNhap_Click;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(dataGridView);
-            groupBox1.Location = new Point(8, 128);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1017, 522);
-            groupBox1.TabIndex = 17;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Danh sách phiếu nhập";
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(910, 26);
+            btnThoat.Location = new Point(904, 14);
             btnThoat.Margin = new Padding(4, 5, 4, 5);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(100, 38);
-            btnThoat.TabIndex = 16;
+            btnThoat.Size = new Size(108, 38);
+            btnThoat.TabIndex = 7;
             btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = true;
             btnThoat.Click += btnThoat_Click;
             // 
-            // btnXuat
+            // groupBox1
             // 
-            btnXuat.Location = new Point(641, 26);
-            btnXuat.Margin = new Padding(4, 5, 4, 5);
-            btnXuat.Name = "btnXuat";
-            btnXuat.Size = new Size(113, 38);
-            btnXuat.TabIndex = 15;
-            btnXuat.Text = "Xuất Excel...";
-            btnXuat.UseVisualStyleBackColor = true;
-            btnXuat.Click += btnXuat_Click;
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(dataGridView);
+            groupBox1.Location = new Point(12, 120);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(1017, 466);
+            groupBox1.TabIndex = 8;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Danh sách phiếu nhập";
             // 
-            // btnTimKiem
+            // groupBox2
             // 
-            btnTimKiem.Location = new Point(520, 26);
-            btnTimKiem.Margin = new Padding(4, 5, 4, 5);
-            btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new Size(113, 38);
-            btnTimKiem.TabIndex = 14;
-            btnTimKiem.Text = "Tìm kiếm...";
-            btnTimKiem.UseVisualStyleBackColor = true;
-            btnTimKiem.Click += btnTimKiem_Click;
+            groupBox2.Controls.Add(btnHuy);
+            groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(dtpTuNgay);
+            groupBox2.Controls.Add(btnLoc);
+            groupBox2.Controls.Add(dtpDenNgay);
+            groupBox2.Location = new Point(22, 60);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1013, 50);
+            groupBox2.TabIndex = 25;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Lọc";
             // 
-            // btnXoa
+            // btnHuy
             // 
-            btnXoa.Location = new Point(412, 26);
-            btnXoa.Margin = new Padding(4, 5, 4, 5);
-            btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(100, 38);
-            btnXoa.TabIndex = 13;
-            btnXoa.Text = "Xóa";
-            btnXoa.UseVisualStyleBackColor = true;
-            btnXoa.Click += btnXoa_Click;
+            btnHuy.Location = new Point(686, 15);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(100, 30);
+            btnHuy.TabIndex = 30;
+            btnHuy.Text = "Hủy lọc";
+            btnHuy.UseVisualStyleBackColor = true;
             // 
-            // btnSua
+            // label1
             // 
-            btnSua.Location = new Point(304, 26);
-            btnSua.Margin = new Padding(4, 5, 4, 5);
-            btnSua.Name = "btnSua";
-            btnSua.Size = new Size(100, 38);
-            btnSua.TabIndex = 12;
-            btnSua.Text = "Sửa...";
-            btnSua.UseVisualStyleBackColor = true;
-            btnSua.Click += btnSua_Click;
+            label1.AutoSize = true;
+            label1.Location = new Point(69, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(65, 20);
+            label1.TabIndex = 20;
+            label1.Text = "Từ ngày:";
             // 
-            // btnInPhieuNhap
+            // label2
             // 
-            btnInPhieuNhap.Location = new Point(176, 26);
-            btnInPhieuNhap.Margin = new Padding(4, 5, 4, 5);
-            btnInPhieuNhap.Name = "btnInPhieuNhap";
-            btnInPhieuNhap.Size = new Size(120, 38);
-            btnInPhieuNhap.TabIndex = 11;
-            btnInPhieuNhap.Text = "In phiếu nhập...";
-            btnInPhieuNhap.UseVisualStyleBackColor = true;
-            btnInPhieuNhap.Click += btnInPhieuNhap_Click;
+            label2.AutoSize = true;
+            label2.Location = new Point(307, 23);
+            label2.Name = "label2";
+            label2.Size = new Size(75, 20);
+            label2.TabIndex = 22;
+            label2.Text = "Đến ngày:";
             // 
-            // btnLapPhieuNhap
+            // dtpTuNgay
             // 
-            btnLapPhieuNhap.Location = new Point(8, 26);
-            btnLapPhieuNhap.Margin = new Padding(4, 5, 4, 5);
-            btnLapPhieuNhap.Name = "btnLapPhieuNhap";
-            btnLapPhieuNhap.Size = new Size(160, 38);
-            btnLapPhieuNhap.TabIndex = 10;
-            btnLapPhieuNhap.Text = "Lập phiếu nhập mới...";
-            btnLapPhieuNhap.UseVisualStyleBackColor = true;
-            btnLapPhieuNhap.Click += btnLapPhieuNhap_Click;
+            dtpTuNgay.CustomFormat = "dd/MM/yyyy";
+            dtpTuNgay.Format = DateTimePickerFormat.Custom;
+            dtpTuNgay.Location = new Point(151, 18);
+            dtpTuNgay.Name = "dtpTuNgay";
+            dtpTuNgay.Size = new Size(150, 27);
+            dtpTuNgay.TabIndex = 19;
             // 
             // btnLoc
             // 
@@ -227,15 +289,6 @@
             btnLoc.UseVisualStyleBackColor = true;
             btnLoc.Click += btnLoc_Click;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(307, 23);
-            label2.Name = "label2";
-            label2.Size = new Size(75, 20);
-            label2.TabIndex = 22;
-            label2.Text = "Đến ngày:";
-            // 
             // dtpDenNgay
             // 
             dtpDenNgay.CustomFormat = "dd/MM/yyyy";
@@ -245,55 +298,25 @@
             dtpDenNgay.Size = new Size(150, 27);
             dtpDenNgay.TabIndex = 21;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(80, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(65, 20);
-            label1.TabIndex = 20;
-            label1.Text = "Từ ngày:";
-            // 
-            // dtpTuNgay
-            // 
-            dtpTuNgay.CustomFormat = "dd/MM/yyyy";
-            dtpTuNgay.Format = DateTimePickerFormat.Custom;
-            dtpTuNgay.Location = new Point(151, 18);
-            dtpTuNgay.Name = "dtpTuNgay";
-            dtpTuNgay.Size = new Size(150, 27);
-            dtpTuNgay.TabIndex = 19;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(label1);
-            groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(dtpTuNgay);
-            groupBox2.Controls.Add(btnLoc);
-            groupBox2.Controls.Add(dtpDenNgay);
-            groupBox2.Location = new Point(13, 72);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(997, 50);
-            groupBox2.TabIndex = 24;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Lọc";
-            // 
             // frmPhieuNhap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1031, 697);
-            Controls.Add(btnNhap);
+            ClientSize = new Size(1059, 597);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(btnThoat);
+            Controls.Add(btnNhap);
             Controls.Add(btnXuat);
-            Controls.Add(btnTimKiem);
             Controls.Add(btnXoa);
             Controls.Add(btnSua);
             Controls.Add(btnInPhieuNhap);
             Controls.Add(btnLapPhieuNhap);
-            Controls.Add(groupBox2);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "frmPhieuNhap";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Phiếu nhập";
+            WindowState = FormWindowState.Maximized;
             Load += frmPhieuNhap_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             groupBox1.ResumeLayout(false);
@@ -302,26 +325,27 @@
             ResumeLayout(false);
         }
         private DataGridView dataGridView;
-        private Button btnNhap;
-        private GroupBox groupBox1;
-        private Button btnThoat;
-        private Button btnXuat;
-        private Button btnTimKiem;
-        private Button btnXoa;
-        private Button btnSua;
-        private Button btnInPhieuNhap;
         private Button btnLapPhieuNhap;
+        private Button btnInPhieuNhap;
+        private Button btnSua;
+        private Button btnXoa;
+        private Button btnXuat;
+        private Button btnNhap;
+        private Button btnThoat;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private Button btnHuy;
+        private Button btnLoc;
+        private Label label1;
+        private Label label2;
+        private DateTimePicker dtpTuNgay;
+        private DateTimePicker dtpDenNgay;
         private DataGridViewTextBoxColumn PNID;
         private DataGridViewTextBoxColumn NhanVien;
         private DataGridViewTextBoxColumn TenNhaCungCap;
         private DataGridViewTextBoxColumn NgayNhap;
         private DataGridViewTextBoxColumn TongTien;
         private DataGridViewLinkColumn ChiTiet;
-        private Button btnLoc;
-        private Label label2;
-        private DateTimePicker dtpDenNgay;
-        private Label label1;
-        private DateTimePicker dtpTuNgay;
-        private GroupBox groupBox2;
     }
 }
+

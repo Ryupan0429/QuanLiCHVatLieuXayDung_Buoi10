@@ -13,13 +13,12 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
+            DataGridViewCellStyle moneyStyle = new DataGridViewCellStyle();
+            DataGridViewCellStyle qtyStyle = new DataGridViewCellStyle();
+
             groupBox1 = new GroupBox();
             dtpNgayNhap = new DateTimePicker();
             label3 = new Label();
@@ -38,329 +37,212 @@
             label4 = new Label();
             panel1 = new Panel();
             dataGridView = new DataGridView();
-            btnLuu = new Button();
-            btnThoat = new Button();
-            label6 = new Label();
-            txtTongTien = new TextBox();
             SanPhamID = new DataGridViewTextBoxColumn();
             TenSanPham = new DataGridViewTextBoxColumn();
             SoLuong = new DataGridViewTextBoxColumn();
             DonGiaNhap = new DataGridViewTextBoxColumn();
             ThanhTien = new DataGridViewTextBoxColumn();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
+            btnLuu = new Button();
+            btnThoat = new Button();
+            label6 = new Label();
+            txtTongTien = new TextBox();
+
             ((System.ComponentModel.ISupportInitialize)numDonGia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numSoLuong).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(dtpNgayNhap);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(txtGhiChu);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(cboNhaCungCap);
-            groupBox1.Controls.Add(label1);
+
+            this.AutoScaleDimensions = new SizeF(8F, 20F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(1099, 663);
+            this.Font = new Font("Segoe UI", 9F);
+            this.BackColor = Color.WhiteSmoke;
+            this.Text = "Chi tiết Phiếu nhập";
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Load += frmPhieuNhap_ChiTiet_Load;
+
+            groupBox1.BackColor = Color.White;
             groupBox1.Location = new Point(12, 12);
-            groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(1075, 110);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin phiếu nhập";
-            // 
-            // dtpNgayNhap
-            // 
-            dtpNgayNhap.Format = DateTimePickerFormat.Short;
-            dtpNgayNhap.Location = new Point(125, 65);
-            dtpNgayNhap.Name = "dtpNgayNhap";
-            dtpNgayNhap.Size = new Size(250, 27);
-            dtpNgayNhap.TabIndex = 5;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 70);
-            label3.Name = "label3";
-            label3.Size = new Size(84, 20);
-            label3.TabIndex = 4;
-            label3.Text = "Ngày nhập:";
-            // 
-            // txtGhiChu
-            // 
-            txtGhiChu.Location = new Point(500, 30);
-            txtGhiChu.Multiline = true;
-            txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new Size(550, 62);
-            txtGhiChu.TabIndex = 3;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(415, 33);
-            label2.Name = "label2";
-            label2.Size = new Size(61, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Ghi chú:";
-            // 
-            // cboNhaCungCap
-            // 
-            cboNhaCungCap.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboNhaCungCap.FormattingEnabled = true;
-            cboNhaCungCap.Location = new Point(125, 30);
-            cboNhaCungCap.Name = "cboNhaCungCap";
-            cboNhaCungCap.Size = new Size(250, 28);
-            cboNhaCungCap.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(15, 33);
-            label1.Name = "label1";
-            label1.Size = new Size(103, 20);
-            label1.TabIndex = 0;
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
             label1.Text = "Nhà cung cấp:";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(btnXoaSP);
-            groupBox2.Controls.Add(btnThemSP);
-            groupBox2.Controls.Add(numDonGia);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(numSoLuong);
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(cboSanPham);
-            groupBox2.Controls.Add(label4);
+            label1.Location = new Point(15, 33);
+            label1.AutoSize = true;
+
+            cboNhaCungCap.Location = new Point(125, 30);
+            cboNhaCungCap.Size = new Size(250, 28);
+            cboNhaCungCap.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            label3.Text = "Ngày nhập:";
+            label3.Location = new Point(15, 70);
+            label3.AutoSize = true;
+
+            dtpNgayNhap.Location = new Point(125, 65);
+            dtpNgayNhap.Size = new Size(250, 27);
+            dtpNgayNhap.Format = DateTimePickerFormat.Short;
+
+            label2.Text = "Ghi chú:";
+            label2.Location = new Point(415, 33);
+            label2.AutoSize = true;
+
+            txtGhiChu.Location = new Point(500, 30);
+            txtGhiChu.Size = new Size(550, 62);
+            txtGhiChu.Multiline = true;
+            txtGhiChu.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            groupBox2.BackColor = Color.White;
             groupBox2.Location = new Point(12, 128);
-            groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(1075, 80);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Chi tiết mặt hàng";
-            // 
-            // btnXoaSP
-            // 
-            btnXoaSP.Location = new Point(950, 28);
-            btnXoaSP.Name = "btnXoaSP";
-            btnXoaSP.Size = new Size(110, 30);
-            btnXoaSP.TabIndex = 7;
-            btnXoaSP.Text = "Xóa mặt hàng";
-            btnXoaSP.UseVisualStyleBackColor = true;
-            btnXoaSP.Click += btnXoaSP_Click;
-            // 
-            // btnThemSP
-            // 
-            btnThemSP.Location = new Point(835, 28);
-            btnThemSP.Name = "btnThemSP";
-            btnThemSP.Size = new Size(100, 30);
-            btnThemSP.TabIndex = 6;
-            btnThemSP.Text = "Thêm vào";
-            btnThemSP.UseVisualStyleBackColor = true;
-            btnThemSP.Click += btnThemSP_Click;
-            // 
-            // numDonGia
-            // 
-            numDonGia.Location = new Point(650, 31);
-            numDonGia.Maximum = new decimal(new int[] { 1410065407, 2, 0, 0 });
-            numDonGia.Name = "numDonGia";
-            numDonGia.Size = new Size(150, 27);
-            numDonGia.TabIndex = 5;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(575, 33);
-            label7.Name = "label7";
-            label7.Size = new Size(65, 20);
-            label7.TabIndex = 4;
-            label7.Text = "Đơn giá:";
-            // 
-            // numSoLuong
-            // 
-            numSoLuong.Location = new Point(460, 31);
-            numSoLuong.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            numSoLuong.Name = "numSoLuong";
-            numSoLuong.Size = new Size(100, 27);
-            numSoLuong.TabIndex = 3;
-            numSoLuong.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(385, 33);
-            label5.Name = "label5";
-            label5.Size = new Size(72, 20);
-            label5.TabIndex = 2;
-            label5.Text = "Số lượng:";
-            // 
-            // cboSanPham
-            // 
-            cboSanPham.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboSanPham.FormattingEnabled = true;
-            cboSanPham.Location = new Point(95, 30);
-            cboSanPham.Name = "cboSanPham";
-            cboSanPham.Size = new Size(270, 28);
-            cboSanPham.TabIndex = 1;
-            cboSanPham.SelectionChangeCommitted += cboSanPham_SelectionChangeCommitted;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(15, 33);
-            label4.Name = "label4";
-            label4.Size = new Size(78, 20);
-            label4.TabIndex = 0;
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
             label4.Text = "Sản phẩm:";
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(dataGridView);
+            label4.Location = new Point(15, 33);
+            label4.AutoSize = true;
+
+            cboSanPham.Location = new Point(95, 30);
+            cboSanPham.Size = new Size(270, 28);
+            cboSanPham.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSanPham.SelectionChangeCommitted += cboSanPham_SelectionChangeCommitted;
+
+            label5.Text = "Số lượng:";
+            label5.Location = new Point(385, 33);
+            label5.AutoSize = true;
+
+            numSoLuong.Location = new Point(460, 31);
+            numSoLuong.Size = new Size(100, 27);
+            numSoLuong.Maximum = 1000000;
+            numSoLuong.Value = 1;
+
+            label7.Text = "Đơn giá:";
+            label7.Location = new Point(575, 33);
+            label7.AutoSize = true;
+
+            numDonGia.Location = new Point(650, 31);
+            numDonGia.Size = new Size(150, 27);
+            numDonGia.Maximum = 1410065407;
+            numDonGia.ThousandsSeparator = true;
+
+            btnThemSP.Text = "Thêm vào";
+            btnThemSP.Location = new Point(835, 28);
+            btnThemSP.Size = new Size(100, 30);
+            btnThemSP.BackColor = Color.FromArgb(0, 123, 255);
+            btnThemSP.ForeColor = Color.White;
+            btnThemSP.FlatStyle = FlatStyle.Flat;
+            btnThemSP.FlatAppearance.BorderSize = 0;
+            btnThemSP.Cursor = Cursors.Hand;
+            btnThemSP.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThemSP.Click += btnThemSP_Click;
+
+            btnXoaSP.Text = "Xóa mặt hàng";
+            btnXoaSP.Location = new Point(950, 28);
+            btnXoaSP.Size = new Size(110, 30);
+            btnXoaSP.BackColor = Color.FromArgb(220, 53, 69);
+            btnXoaSP.ForeColor = Color.White;
+            btnXoaSP.FlatStyle = FlatStyle.Flat;
+            btnXoaSP.FlatAppearance.BorderSize = 0;
+            btnXoaSP.Cursor = Cursors.Hand;
+            btnXoaSP.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnXoaSP.Click += btnXoaSP_Click;
+
             panel1.Location = new Point(12, 214);
-            panel1.Name = "panel1";
             panel1.Size = new Size(1075, 380);
-            panel1.TabIndex = 2;
-            // 
-            // dataGridView
-            // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
             dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { SanPhamID, TenSanPham, SoLuong, DonGiaNhap, ThanhTien });
+            dataGridView.BackgroundColor = Color.White;
+            dataGridView.BorderStyle = BorderStyle.None;
+            dataGridView.EnableHeadersVisualStyles = false;
             dataGridView.Dock = DockStyle.Fill;
-            dataGridView.Location = new Point(0, 0);
-            dataGridView.Name = "dataGridView";
-            dataGridView.RowHeadersWidth = 51;
+            dataGridView.MultiSelect = false;
+            dataGridView.ReadOnly = true;
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.Size = new Size(1075, 380);
-            dataGridView.TabIndex = 0;
-            // 
-            // btnLuu
-            // 
-            btnLuu.Location = new Point(810, 610);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(140, 40);
-            btnLuu.TabIndex = 3;
-            btnLuu.Text = "Lưu phiếu nhập";
-            btnLuu.UseVisualStyleBackColor = true;
-            btnLuu.Click += btnLuu_Click;
-            // 
-            // btnThoat
-            // 
-            btnThoat.Location = new Point(967, 610);
-            btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(120, 40);
-            btnThoat.TabIndex = 4;
-            btnThoat.Text = "Thoát";
-            btnThoat.UseVisualStyleBackColor = true;
-            btnThoat.Click += btnThoat_Click;
-            // 
-            // label6
-            // 
+
+            headerStyle.BackColor = Color.FromArgb(245, 245, 245);
+            headerStyle.ForeColor = Color.FromArgb(40, 40, 40);
+            headerStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridView.ColumnHeadersDefaultCellStyle = headerStyle;
+
+            qtyStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            qtyStyle.Format = "N0";
+
+            moneyStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            moneyStyle.Format = "N0";
+            moneyStyle.ForeColor = Color.FromArgb(0, 123, 255);
+            moneyStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            SanPhamID.DataPropertyName = "SanPhamID"; SanPhamID.HeaderText = "Mã SP";
+            TenSanPham.DataPropertyName = "TenSanPham"; TenSanPham.HeaderText = "Tên sản phẩm";
+            SoLuong.DataPropertyName = "SoLuong"; SoLuong.HeaderText = "Số lượng"; SoLuong.DefaultCellStyle = qtyStyle;
+            DonGiaNhap.DataPropertyName = "DonGiaNhap"; DonGiaNhap.HeaderText = "Đơn giá nhập"; DonGiaNhap.DefaultCellStyle = qtyStyle;
+            ThanhTien.DataPropertyName = "ThanhTien"; ThanhTien.HeaderText = "Thành tiền"; ThanhTien.DefaultCellStyle = moneyStyle;
+
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { SanPhamID, TenSanPham, SoLuong, DonGiaNhap, ThanhTien });
+            panel1.Controls.Add(dataGridView);
+
+            label6.Text = "Tổng tiền:";
+            label6.Location = new Point(12, 615);
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label6.Location = new Point(12, 615);
-            label6.Name = "label6";
-            label6.Size = new Size(108, 28);
-            label6.TabIndex = 5;
-            label6.Text = "Tổng tiền:";
-            // 
-            // txtTongTien
-            // 
-            txtTongTien.BackColor = SystemColors.Info;
-            txtTongTien.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            txtTongTien.ForeColor = Color.Red;
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+
             txtTongTien.Location = new Point(126, 612);
-            txtTongTien.Name = "txtTongTien";
-            txtTongTien.ReadOnly = true;
             txtTongTien.Size = new Size(250, 34);
-            txtTongTien.TabIndex = 6;
-            txtTongTien.Text = "0";
+            txtTongTien.BackColor = Color.White;
+            txtTongTien.ForeColor = Color.FromArgb(0, 123, 255);
+            txtTongTien.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            txtTongTien.ReadOnly = true;
             txtTongTien.TextAlign = HorizontalAlignment.Right;
-            // 
-            // SanPhamID
-            // 
-            SanPhamID.DataPropertyName = "SanPhamID";
-            SanPhamID.HeaderText = "Mã SP";
-            SanPhamID.MinimumWidth = 6;
-            SanPhamID.Name = "SanPhamID";
-            SanPhamID.ReadOnly = true;
-            // 
-            // TenSanPham
-            // 
-            TenSanPham.DataPropertyName = "TenSanPham";
-            TenSanPham.HeaderText = "Tên sản phẩm";
-            TenSanPham.MinimumWidth = 6;
-            TenSanPham.Name = "TenSanPham";
-            TenSanPham.ReadOnly = true;
-            // 
-            // SoLuong
-            // 
-            SoLuong.DataPropertyName = "SoLuong";
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            SoLuong.DefaultCellStyle = dataGridViewCellStyle1;
-            SoLuong.HeaderText = "Số lượng";
-            SoLuong.MinimumWidth = 6;
-            SoLuong.Name = "SoLuong";
-            SoLuong.ReadOnly = true;
-            // 
-            // DonGiaNhap
-            // 
-            DonGiaNhap.DataPropertyName = "DonGiaNhap";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = null;
-            DonGiaNhap.DefaultCellStyle = dataGridViewCellStyle2;
-            DonGiaNhap.HeaderText = "Đơn giá nhập";
-            DonGiaNhap.MinimumWidth = 6;
-            DonGiaNhap.Name = "DonGiaNhap";
-            DonGiaNhap.ReadOnly = true;
-            // 
-            // ThanhTien
-            // 
-            ThanhTien.DataPropertyName = "ThanhTien";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = null;
-            ThanhTien.DefaultCellStyle = dataGridViewCellStyle3;
-            ThanhTien.HeaderText = "Thành tiền";
-            ThanhTien.MinimumWidth = 6;
-            ThanhTien.Name = "ThanhTien";
-            ThanhTien.ReadOnly = true;
-            // 
-            // frmPhieuNhap_ChiTiet
-            // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1099, 663);
-            Controls.Add(txtTongTien);
-            Controls.Add(label6);
-            Controls.Add(btnThoat);
-            Controls.Add(btnLuu);
-            Controls.Add(panel1);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            Name = "frmPhieuNhap_ChiTiet";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Chi tiết Phiếu nhập";
-            Load += frmPhieuNhap_ChiTiet_Load;
+            txtTongTien.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+
+            btnLuu.Text = "Lưu phiếu nhập";
+            btnLuu.Location = new Point(810, 610);
+            btnLuu.Size = new Size(140, 40);
+            btnLuu.BackColor = Color.FromArgb(0, 123, 255);
+            btnLuu.ForeColor = Color.White;
+            btnLuu.FlatStyle = FlatStyle.Flat;
+            btnLuu.FlatAppearance.BorderSize = 0;
+            btnLuu.Cursor = Cursors.Hand;
+            btnLuu.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnLuu.Click += btnLuu_Click;
+
+            btnThoat.Text = "Thoát";
+            btnThoat.Location = new Point(967, 610);
+            btnThoat.Size = new Size(120, 40);
+            btnThoat.BackColor = Color.FromArgb(108, 117, 125);
+            btnThoat.ForeColor = Color.White;
+            btnThoat.FlatStyle = FlatStyle.Flat;
+            btnThoat.FlatAppearance.BorderSize = 0;
+            btnThoat.Cursor = Cursors.Hand;
+            btnThoat.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnThoat.Click += btnThoat_Click;
+
+            groupBox1.Controls.AddRange(new Control[] { dtpNgayNhap, label3, txtGhiChu, label2, cboNhaCungCap, label1 });
+            groupBox2.Controls.AddRange(new Control[] { btnXoaSP, btnThemSP, numDonGia, label7, numSoLuong, label5, cboSanPham, label4 });
+            this.Controls.AddRange(new Control[] { txtTongTien, label6, btnThoat, btnLuu, panel1, groupBox2, groupBox1 });
+
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numDonGia).EndInit();
             ((System.ComponentModel.ISupportInitialize)numSoLuong).EndInit();
-            panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
 
         private GroupBox groupBox1;
         private Label label1;
