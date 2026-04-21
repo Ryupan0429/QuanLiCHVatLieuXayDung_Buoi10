@@ -17,8 +17,8 @@
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
             btnLamMoi = new Button();
@@ -150,6 +150,7 @@
             // 
             txtTongNo.Location = new Point(580, 100);
             txtTongNo.Name = "txtTongNo";
+            txtTongNo.ReadOnly = true;
             txtTongNo.Size = new Size(244, 27);
             txtTongNo.TabIndex = 15;
             txtTongNo.Text = "0";
@@ -336,10 +337,10 @@
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.BackgroundColor = Color.White;
             dataGridView.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(245, 245, 245);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.FromArgb(40, 40, 40);
-            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(40, 40, 40);
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView.ColumnHeadersHeight = 29;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { KhachHangID, TenKhachHang, SoDienThoai, DiaChi, LoaiKhachHang, TongNo });
             dataGridView.Dock = DockStyle.Fill;
@@ -397,11 +398,11 @@
             // TongNo
             // 
             TongNo.DataPropertyName = "TongNo";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(220, 53, 69);
-            dataGridViewCellStyle6.Format = "N0";
-            TongNo.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(220, 53, 69);
+            dataGridViewCellStyle2.Format = "N0";
+            TongNo.DefaultCellStyle = dataGridViewCellStyle2;
             TongNo.HeaderText = "Tổng nợ";
             TongNo.MinimumWidth = 6;
             TongNo.Name = "TongNo";

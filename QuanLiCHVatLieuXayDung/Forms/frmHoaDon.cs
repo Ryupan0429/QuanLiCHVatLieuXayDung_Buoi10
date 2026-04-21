@@ -59,6 +59,13 @@ namespace QuanLiCHVatLieuXayDung.Forms
             if (dataGridView.CurrentRow != null)
             {
                 id = Convert.ToInt32(dataGridView.CurrentRow.Cells["HDID"].Value);
+                // Kiểm tra xem hóa đơn đã thanh toán chưa
+                var hoaDon = context.HoaDon.Find(id);
+                if (hoaDon != null && hoaDon.TrangThaiThanhToan != "Chưa thanh toán")
+                {
+                    MessageBox.Show("Không thể sửa hóa đơn đã thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 using (frmHoaDon_ChiTiet chiTiet = new frmHoaDon_ChiTiet(id))
                 {
                     chiTiet.ShowDialog();
@@ -84,6 +91,14 @@ namespace QuanLiCHVatLieuXayDung.Forms
                             var hd = context.HoaDon.Find(id);
                             if (hd != null)
                             {
+                                // Kiểm tra xem hóa đơn đã thanh toán chưa
+                                if (hd.TrangThaiThanhToan == "Đã thanh toán")
+                                {
+                                    MessageBox.Show("Không thể xóa hóa đơn đã thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                int khachHangID = hd.KhachHangID;
                                 var chiTiets = context.HoaDon_ChiTiet.Where(ct => ct.HoaDonID == id).ToList();
                                 decimal tongTien = hd.HoaDon_ChiTiet.Sum(ct => ct.SoLuong * ct.DonGia);
 
@@ -103,6 +118,9 @@ namespace QuanLiCHVatLieuXayDung.Forms
                                 context.SaveChanges();
                                 trans.Commit();
 
+                                // Cập nhật lại tổng nợ khách hàng dựa trên tất cả hóa đơn chưa thanh toán
+                                UpdateCustomerDebt(khachHangID);
+
                                 NhatKyHeThong.GhiNhatKy("Xóa", "Hóa đơn", $"Xóa hóa đơn ID: {id} - Tổng tiền: {tongTien:N0}");
                                 MessageBox.Show("Xóa hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 frmHoaDon_Load(sender, e);
@@ -121,6 +139,32 @@ namespace QuanLiCHVatLieuXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // Phương thức cập nhật tổng nợ khách hàng dựa trên tổng tất cả hóa đơn chưa thanh toán
+        public void UpdateCustomerDebt(int khachHangID)
+        {
+            try
+            {
+                var khachHang = context.KhachHang.Find(khachHangID);
+                if (khachHang != null)
+                {
+                    // Tính tổng tiền từ tất cả hóa đơn chưa thanh toán của khách hàng
+                    decimal totalDebt = context.HoaDon
+                        .Where(hd => hd.KhachHangID == khachHangID && hd.TrangThaiThanhToan == "Chưa thanh toán")
+                        .SelectMany(hd => hd.HoaDon_ChiTiet)
+                        .Sum(ct => ct.SoLuong * ct.DonGia);
+
+                    // Cập nhật tổng nợ
+                    khachHang.TongNo = totalDebt;
+                    context.KhachHang.Update(khachHang);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật nợ khách hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Ghi nhận thanh toán cho hóa đơn

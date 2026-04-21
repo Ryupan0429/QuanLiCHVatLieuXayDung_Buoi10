@@ -221,15 +221,20 @@ namespace QuanLiCHVatLieuXayDung.Forms
             {
                 try
                 {
+                    int oldKhachHangID = 0;
+                    int newKhachHangID = Convert.ToInt32(cboKhachHang.SelectedValue);
+
                     if (id != 0)
                     {
                         // SỬA HÓA ĐƠN CŨ 
                         HoaDon hd = context.HoaDon.Find(id);
                         if (hd != null)
                         {
+                            oldKhachHangID = hd.KhachHangID;
+
                             // Cập nhật thông tin hóa đơn
                             hd.NhanVienID = Convert.ToInt32(cboNhanVien.SelectedValue);
-                            hd.KhachHangID = Convert.ToInt32(cboKhachHang.SelectedValue);
+                            hd.KhachHangID = newKhachHangID;
                             hd.GhiChuHoaDon = txtGhiChuHoaDon.Text;
                             context.HoaDon.Update(hd);
 
@@ -279,7 +284,7 @@ namespace QuanLiCHVatLieuXayDung.Forms
                         // TẠO HÓA ĐƠN MỚI
                         HoaDon hd = new HoaDon();
                         hd.NhanVienID = Convert.ToInt32(cboNhanVien.SelectedValue);
-                        hd.KhachHangID = Convert.ToInt32(cboKhachHang.SelectedValue);
+                        hd.KhachHangID = newKhachHangID;
                         hd.NgayLap = DateTime.Now;
                         hd.GhiChuHoaDon = txtGhiChuHoaDon.Text;
                         context.HoaDon.Add(hd);
@@ -309,8 +314,33 @@ namespace QuanLiCHVatLieuXayDung.Forms
                         context.SaveChanges();
                     }
 
-                    trans.Commit();
-
+                    // CẬP NHẬT NỢ KHÁCH HÀNG DỰA TRÊN TỔNG HÓA ĐƠN CHƯA THANH TOÁN
+                    if (id != 0 && oldKhachHangID != newKhachHangID)
+                    {
+                        // Nếu sửa và thay đổi khách hàng: cập nhật cả khách hàng cũ và mới
+                        context.SaveChanges();
+                        trans.Commit();
+                        
+                        // Gọi phương thức tính toán nợ từ frmHoaDon
+                        frmHoaDon frm = Application.OpenForms.OfType<frmHoaDon>().FirstOrDefault();
+                        if (frm != null)
+                        {
+                            frm.UpdateCustomerDebt(oldKhachHangID);
+                            frm.UpdateCustomerDebt(newKhachHangID);
+                        }
+                    }
+                    else
+                    {
+                        // Nếu tạo mới hoặc sửa cùng khách hàng: cập nhật khách hàng hiện tại
+                        context.SaveChanges();
+                        trans.Commit();
+                        
+                        frmHoaDon frm = Application.OpenForms.OfType<frmHoaDon>().FirstOrDefault();
+                        if (frm != null)
+                        {
+                            frm.UpdateCustomerDebt(newKhachHangID);
+                        }
+                    }
 
                     // Ghi nhận lịch sử
                     if (id != 0)
